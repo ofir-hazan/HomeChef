@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddRecipeFirstActivity">
+
+    <EditText
+        android:id="@+id/recipeTitle"
+        android:layout_width="293dp"
+        android:layout_height="wrap_content"
+        android:hint="כותרת מתכון"
+        android:inputType="text"
+        android:minHeight="48dp"
+        tools:layout_editor_absoluteX="74dp"
+        tools:layout_editor_absoluteY="367dp" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/white"
+        android:shadowColor="@color/orange"
+        android:text="ביטול"
+        android:textColor="@color/orange"
+        android:textColorHighlight="@color/white"
+        app:strokeColor="@color/orange"
+        app:strokeWidth="1dp"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="561dp" />
+
+    <EditText
+        android:id="@+id/estimatedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="זמן הכנה משוער"
+        android:inputType="time"
+        android:minHeight="48dp"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="429dp" />
+
+    <Spinner
+        android:id="@+id/countryDropdown"
+        android:layout_width="208dp"
+        android:layout_height="38dp"
+        android:autofillHints="מאיזה מדינה המתכון שלך?"
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="488dp" />
+
+    <Button
+        android:id="@+id/uploadPicButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="העלה תמונה"
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <ImageView
+        android:id="@+id/dishImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo_no_title"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="62dp" />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="המשך"
+        tools:layout_editor_absoluteX="249dp"
+        tools:layout_editor_absoluteY="563dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
