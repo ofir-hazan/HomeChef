@@ -13,14 +13,30 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class AddRecipeFragment extends Fragment {
-    private final String defaultCountryNames[] = {"Israel", "Turkey", "Italy", "USA", "UK"};
+
+    private ArrayList<String> countryNames;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Spinner dropdownSpinner = container.findViewById(R.id.countryDropdown);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, defaultCountryNames);
+        getCountries();//function to get and edit json from api
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, countryNames);
         dropdownSpinner.setAdapter(adapter);
         dropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -28,7 +44,6 @@ public class AddRecipeFragment extends Fragment {
                 Toast.makeText(getActivity(), "you selected:"+adapterView.getItemAtPosition(position),Toast.LENGTH_SHORT).show();  // test
                 //TODO add action
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -56,5 +71,33 @@ public class AddRecipeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_recipe, container, false);
+    }
+
+    private void getCountries(){
+        String countriesURL = "https://api.first.org/data/v1/countries";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(countriesURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray array = new JSONArray(response.getJSONArray("data"));
+                    for (int i = 0; i< array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        countryNames.add(jsonObject.getString("country"));
+                    }
+                } catch (JSONException e) {
+                    countryNames = new ArrayList<String>(
+                            Arrays.asList("Israel", "Turkey", "Italy", "USA", "UK"));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                countryNames = new ArrayList<String>(
+                        Arrays.asList("Israel", "Turkey", "Italy", "USA", "UK"));
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(jsonObjectRequest);
     }
 }
