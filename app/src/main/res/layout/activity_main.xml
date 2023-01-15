@@ -1,23 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="MissingClass">
 
-<FrameLayout
-    android:id="@+id/fragmentContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@id/navFooter">
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/navFooter"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="הפרופיל שלי"-->
+<!--            android:icon="@drawable/icon_person"/>-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="הוסף מתכון"-->
+<!--            android:icon="@drawable/icon_add_post"/>-->
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="כל המתכונים"-->
+<!--            android:icon="@drawable/icon_home"/>-->
 
-</FrameLayout>
+<!--    </com.google.android.material.tabs.TabLayout>-->
+
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/fragmentContainer"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+
+<!--<FrameLayout-->
+<!--    android:id="@+id/fragmentContainer"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_above="@id/navFooter"/>-->
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/navFooter"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:menu="@menu/bottom_nav_menu"/>-->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_navhost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/main_bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
+<!--        tools:layout="@layout/fragment_home_page" />-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navFooter"
+        android:id="@+id/main_bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

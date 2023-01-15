@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/profile"
-        android:title="הפרופיל שלי"
-        android:icon="@drawable/icon_person"/>
+    <item android:id="@+id/HomeFragment"
+        android:title="כל המתכונים"
+        android:icon="@drawable/icon_home"/>
 
-    <item android:id="@+id/addRecipe"
+    <item android:id="@+id/AddRecipeFragment"
         android:title="הוסף מתכון"
         android:icon="@drawable/icon_add_post"/>
 
-    <item android:id="@+id/home"
-    android:title="כל המתכונים"
-    android:icon="@drawable/icon_home"/>
+    <item android:id="@+id/ProfileFragment"
+        android:title="הפרופיל שלי"
+        android:icon="@drawable/icon_person"/>
+
 </menu>
