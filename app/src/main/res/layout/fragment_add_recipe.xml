@@ -6,35 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".AddRecipeFragment">
 
-    <Button
-        android:id="@+id/uploadPicButton"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:text="העלה תמונה"
-        app:cornerRadius="1dp"
-        tools:translationX="116dp"
-        tools:translationY="60dp"/>
+<!--    <Button-->
+<!--        android:id="@+id/uploadPicButton"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:text="העלה תמונה"-->
+<!--        app:cornerRadius="1dp"-->
+<!--        tools:translationX="116dp"-->
+<!--        tools:translationY="60dp"/>-->
 
-    <EditText
-        android:id="@+id/recipeTitle"
-        android:layout_width="293dp"
-        android:layout_height="wrap_content"
-        android:hint="כותרת מתכון"
-        android:inputType="text"
-        android:minHeight="48dp"
-        tools:translationX="74dp"
-        tools:translationY="100dp" />
+<!--    <EditText-->
+<!--        android:id="@+id/recipeTitle"-->
+<!--        android:layout_width="293dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="כותרת מתכון"-->
+<!--        android:inputType="text"-->
+<!--        android:minHeight="48dp"-->
+<!--        tools:translationX="74dp"-->
+<!--        tools:translationY="100dp" />-->
 
-    <EditText
-        android:id="@+id/estimatedTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="זמן הכנה משוער"
-        android:inputType="time"
-        android:minHeight="48dp"
-        tools:translationX="157dp"
-        tools:translationY="145dp" />
+<!--    <EditText-->
+<!--        android:id="@+id/estimatedTime"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:hint="זמן הכנה משוער"-->
+<!--        android:inputType="time"-->
+<!--        android:minHeight="48dp"-->
+<!--        tools:translationX="157dp"-->
+<!--        tools:translationY="145dp" />-->
 
     <Spinner
         android:id="@+id/countryDropdown"
@@ -44,24 +44,24 @@
         tools:translationX="159dp"
         tools:translationY="195dp" />
 
-    <EditText
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="323dp"
-        android:layout_height="319dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="הוראות המתכון שלי..."
-        android:inputType="textMultiLine"
-        tools:translationX="44dp"
-        tools:translationY="235dp" />
+<!--    <EditText-->
+<!--        android:id="@+id/editTextTextMultiLine"-->
+<!--        android:layout_width="323dp"-->
+<!--        android:layout_height="319dp"-->
+<!--        android:ems="10"-->
+<!--        android:gravity="start|top"-->
+<!--        android:hint="הוראות המתכון שלי..."-->
+<!--        android:inputType="textMultiLine"-->
+<!--        tools:translationX="44dp"-->
+<!--        tools:translationY="235dp" />-->
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="שמור"
-        tools:translationX="240dp"
-        tools:translationY="620dp" />
+<!--    <Button-->
+<!--        android:id="@+id/saveButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="שמור"-->
+<!--        tools:translationX="240dp"-->
+<!--        tools:translationY="620dp" />-->
 
     <Button
         android:id="@+id/cancelButton"
@@ -73,4 +73,10 @@
         tools:translationX="85dp"
         tools:translationY="620dp" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add recipe page test!!!!!!!!"
+        android:textSize="20sp" />
 </FrameLayout>
