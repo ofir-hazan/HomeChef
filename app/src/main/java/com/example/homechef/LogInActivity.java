@@ -21,6 +21,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
     private Button logInButton;
+    private TextView signUpFrom;
     private FirebaseAuth mAuth;
 
     @Override
@@ -28,7 +29,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
-            navToActivity();
+            navToActivity(MainActivity.class);
         }
     }
 
@@ -49,6 +50,14 @@ public class LogInActivity extends AppCompatActivity {
                 logInUser();
             }
         });
+
+        signUpFrom = (TextView) findViewById(R.id.signUpFrom);
+        signUpFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navToActivity(SignUpActivity.class);
+            }
+        });
     }
 
     private void logInUser() {
@@ -61,7 +70,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            navToActivity();
+                            navToActivity(MainActivity.class);
                         } else {
                             Toast.makeText(LogInActivity.this, "Log in failed, please try again" + task.toString(), Toast.LENGTH_LONG).show();
                         }
@@ -69,8 +78,8 @@ public class LogInActivity extends AppCompatActivity {
                 });
     }
 
-    private void navToActivity() {
-        Intent navToActivityIntent = new Intent(this, MainActivity.class);
+    private void navToActivity(Class activityClass) {
+        Intent navToActivityIntent = new Intent(this, activityClass);
         startActivity(navToActivityIntent);
     }
 }
