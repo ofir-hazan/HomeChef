@@ -22,15 +22,18 @@ public class ProfilePageFragment extends Fragment {
 
         ImageButton imageButton = (ImageButton) view.findViewById(R.id.editButton);
         ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
-        Button button = (Button) view.findViewById(R.id.saveButton);
+        Button saveButton = (Button) view.findViewById(R.id.saveButton);
+        Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
 
         imageButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Button button = (Button) view.findViewById(R.id.saveButton);
-                button.setVisibility(View.VISIBLE);
+                Button saveButton = (Button) view.findViewById(R.id.saveButton);
+                saveButton.setVisibility(View.VISIBLE);
+                Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+                cancelButton.setVisibility(View.VISIBLE);
                 EditText editText = (EditText) view.findViewById(R.id.userNameInput);
                 editText.setEnabled(true);
                 ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
@@ -48,11 +51,27 @@ public class ProfilePageFragment extends Fragment {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button button = (Button) view.findViewById(R.id.saveButton);
-                button.setVisibility(View.INVISIBLE);
+                Button saveButton = (Button) view.findViewById(R.id.saveButton);
+                saveButton.setVisibility(View.INVISIBLE);
+                Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+                cancelButton.setVisibility(View.INVISIBLE);
+                EditText editText = (EditText) view.findViewById(R.id.userNameInput);
+                editText.setEnabled(false);
+                ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
+                imageView.setClickable(false);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button saveButton = (Button) view.findViewById(R.id.saveButton);
+                saveButton.setVisibility(View.INVISIBLE);
+                Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+                cancelButton.setVisibility(View.INVISIBLE);
                 EditText editText = (EditText) view.findViewById(R.id.userNameInput);
                 editText.setEnabled(false);
                 ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
