@@ -27,6 +27,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class AddRecipeFragment extends Fragment {
 
@@ -47,11 +50,8 @@ public class AddRecipeFragment extends Fragment {
         useApi(container);
 
         Button cancelButton = (Button) inf.findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO Do something in response to button click
-            }
+        cancelButton.setOnClickListener(v -> {
+            //TODO Do something in response to button click
         });
 
 //        Button saveButton = (Button) container.findViewById(R.id.saveButton);
