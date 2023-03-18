@@ -70,6 +70,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // TODO: Get user data from DB and save locally
                             navToActivity(MainActivity.class);
                         } else {
                             Toast.makeText(LogInActivity.this, "Log in failed, please try again" + task.toString(), Toast.LENGTH_LONG).show();
