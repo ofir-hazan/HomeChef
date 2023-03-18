@@ -5,51 +5,32 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.ListFragment;
+import androidx.lifecycle.LiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class RecipeListFragment extends ListFragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public RecipeListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static RecipeListFragment newInstance(int columnCount) {
         RecipeListFragment fragment = new RecipeListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -97,8 +78,15 @@ public class RecipeListFragment extends ListFragment {
                 "Israel", 600));
 
         //Populate the list fragment
-        setListAdapter(new RecipeListViewAdapter(context,
-                fakeData));
+        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
+
+        if (dbData == null){
+            setListAdapter(new RecipeListViewAdapter(context,
+                    fakeData));
+        }else{
+            setListAdapter(new RecipeListViewAdapter(context,
+                    dbData.getValue()));
+        }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
