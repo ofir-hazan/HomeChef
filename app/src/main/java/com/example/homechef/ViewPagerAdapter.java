@@ -22,35 +22,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new AddRecipeFragment();
             case 3:
-                return new HomePageFragment();
-            default:return  new HomePageFragment();
+                return new RecipeListFragment();
+            default:return  new RecipeListFragment();
     }}
 
     @Override
     public int getCount() {
         return 4;
     }
-
-//    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-//        super(fragmentActivity);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public Fragment createFragment(int position) {
-//        switch (position){
-//            case 0:
-//                return new ProfilePageFragment();
-//            case 1:
-//                return new AddRecipeFragment();
-//            case 3:
-//                return new HomePageFragment();
-//            default:return  new HomePageFragment();
-//        }
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return 0;
-//    }
 }

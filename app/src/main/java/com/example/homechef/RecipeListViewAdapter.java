@@ -3,7 +3,6 @@ package com.example.homechef;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,7 @@ import android.widget.TextView;
 import com.example.homechef.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.homechef.utils.Utils;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Period;
-import java.time.temporal.TemporalAmount;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;

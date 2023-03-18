@@ -5,14 +5,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.ListFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.LinkedList;
@@ -60,7 +56,7 @@ public class RecipeListFragment extends ListFragment {
         final Activity activity = getActivity();
         final Context context = getContext();
 
-        ListView view = (ListView) inflater.inflate(R.layout.fragment_item_list, container, false);
+        ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         if(context == null || activity == null) {
             return super.onCreateView(inflater, container, savedInstanceState);
