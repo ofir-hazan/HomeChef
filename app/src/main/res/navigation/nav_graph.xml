@@ -3,26 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
+    app:startDestination="@id/RecipeListFragment">
 
     <fragment
-        android:id="@+id/HomeFragment"
-        android:name="com.example.homechef.HomePageFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home_page">
+        android:id="@+id/RecipeListFragment"
+        android:name="com.example.homechef.RecipeListFragment"
+        tools:layout="@layout/fragment_recipe_list">
     </fragment>
 
     <fragment
         android:id="@+id/AddRecipeFragment"
         android:name="com.example.homechef.AddRecipeFragment"
-        android:label="Add Recipe"
         tools:layout="@layout/fragment_add_recipe">
     </fragment>
 
     <fragment
         android:id="@+id/ProfileFragment"
         android:name="com.example.homechef.ProfilePageFragment"
-        android:label="Profile"
         tools:layout="@layout/fragment_profile_page">
     </fragment>
 </navigation>

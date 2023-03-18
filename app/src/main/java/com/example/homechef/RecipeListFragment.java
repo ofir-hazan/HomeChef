@@ -58,7 +58,7 @@ public class RecipeListFragment extends ListFragment {
         final Activity activity = getActivity();
         final Context context = getContext();
 
-        ListView view = (ListView) inflater.inflate(R.layout.fragment_item_list, container, false);
+        ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         if(context == null || activity == null) {
             return super.onCreateView(inflater, container, savedInstanceState);
