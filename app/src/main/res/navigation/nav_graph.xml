@@ -8,21 +8,18 @@
     <fragment
         android:id="@+id/RecipeListFragment"
         android:name="com.example.homechef.RecipeListFragment"
-        android:label="Home"
         tools:layout="@layout/fragment_recipe_list">
     </fragment>
 
     <fragment
         android:id="@+id/AddRecipeFragment"
         android:name="com.example.homechef.AddRecipeFragment"
-        android:label="Add Recipe"
         tools:layout="@layout/fragment_add_recipe">
     </fragment>
 
     <fragment
         android:id="@+id/ProfileFragment"
         android:name="com.example.homechef.ProfilePageFragment"
-        android:label="Profile"
         tools:layout="@layout/fragment_profile_page">
     </fragment>
 </navigation>
