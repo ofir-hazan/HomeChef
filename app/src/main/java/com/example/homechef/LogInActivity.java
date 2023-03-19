@@ -1,5 +1,7 @@
 package com.example.homechef;
 
+import static com.example.homechef.utils.Utils.patternMatches;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,19 +66,29 @@ public class LogInActivity extends AppCompatActivity {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
+        if (email == "" || password == "") {
+            Toast.makeText(LogInActivity.this, "אנא מלאו את כל השדות", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!patternMatches(email)) {
+            Toast.makeText(LogInActivity.this, "אנא הכניסו אימייל תקין", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            // TODO: Get user data from DB and save locally
-                            navToActivity(MainActivity.class);
-                        } else {
-                            Toast.makeText(LogInActivity.this, "Log in failed, please try again" + task.toString(), Toast.LENGTH_LONG).show();
-                        }
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        // TODO: Get user data from DB and save locally
+                        navToActivity(MainActivity.class);
+                    } else {
+                        Toast.makeText(LogInActivity.this, "שגיאת התחברות, אנא נסו שוב מאוחר יותר" + task.toString(), Toast.LENGTH_LONG).show();
                     }
-                });
+                }
+            });
     }
 
     private void navToActivity(Class activityClass) {
