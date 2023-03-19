@@ -24,6 +24,7 @@ public class ProfilePageFragment extends Fragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
         Button saveButton = (Button) view.findViewById(R.id.saveButton);
         Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        imageView.setEnabled(false);
 
         imageButton.setOnClickListener(new View.OnClickListener()
         {
@@ -37,7 +38,7 @@ public class ProfilePageFragment extends Fragment {
                 EditText editText = (EditText) view.findViewById(R.id.userNameInput);
                 editText.setEnabled(true);
                 ImageView imageView = (ImageView) view.findViewById(R.id.profilePicture);
-                imageView.setClickable(true);
+                imageView.setEnabled(true);
             }
         });
 
