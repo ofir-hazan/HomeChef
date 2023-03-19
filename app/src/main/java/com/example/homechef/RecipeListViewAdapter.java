@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.homechef.model.Post;
 import com.example.homechef.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.homechef.utils.Utils;
 import com.squareup.picasso.Picasso;
