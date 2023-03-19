@@ -78,15 +78,15 @@ public class RecipeListFragment extends ListFragment {
                 "Israel", 600));
 
         //Populate the list fragment
-        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
+//        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
 
-        if (dbData == null){
+//        if (dbData == null){
             setListAdapter(new RecipeListViewAdapter(context,
                     fakeData));
-        }else{
-            setListAdapter(new RecipeListViewAdapter(context,
-                    dbData.getValue()));
-        }
+//        }else{
+//            setListAdapter(new RecipeListViewAdapter(context,
+//                    dbData.getValue()));
+//        }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
