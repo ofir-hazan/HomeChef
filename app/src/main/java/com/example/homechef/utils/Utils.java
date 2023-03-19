@@ -2,6 +2,8 @@ package com.example.homechef.utils;
 
 import android.icu.text.DateIntervalFormat;
 
+import java.util.regex.Pattern;
+
 public class Utils {
     public static String timeToString(int timeInSeconds){
         // Convert int of duration in seconds to a string of format "X hours Y minutes Z seconds",
@@ -51,5 +53,11 @@ public class Utils {
         }
 
         return timeString;
+    }
+
+    public static boolean patternMatches(String emailAddress) {
+        return Pattern.compile("^(.+)@(\\S+)$")
+                .matcher(emailAddress)
+                .matches();
     }
 }
