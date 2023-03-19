@@ -34,24 +34,27 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    int fragmentMenuId = 0;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
-        if (fragmentMenuId != 0){
-            menu.removeItem(fragmentMenuId);
-        }
-        fragmentMenuId = 0;
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout){
-            FirebaseAuth.getInstance().signOut();
-            Intent navToActivityIntent = new Intent(this, LogInActivity.class);
-            startActivity(navToActivityIntent);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                navController.popBackStack();
+                break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent navToActivityIntent = new Intent(this, LogInActivity.class);
+                startActivity(navToActivityIntent);
+                break;
+            default:
+                return NavigationUI.onNavDestinationSelected(item,navController);
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
