@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.homechef.model.Post;
 import com.example.homechef.model.User;
-import com.example.homechef.model.PostCard;
 import com.example.homechef.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.homechef.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -23,17 +22,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class RecipeListViewAdapter extends BaseAdapter {
 
-    private final List<PostCard> posts;
+    private final List<Post> posts;
     private final LayoutInflater inflater;
     private Map<String, String> mCountries = new HashMap<>();
 
-    public RecipeListViewAdapter(Context applicationContext, List<PostCard> posts) {
+    public RecipeListViewAdapter(Context applicationContext, List<Post> posts) {
         Locale englishLanguage = new Locale.Builder().setLanguage("en").build();
         this.posts = posts;
         this.inflater = (LayoutInflater.from(applicationContext));
@@ -64,9 +60,8 @@ public class RecipeListViewAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.fragment_recipe_card, null);
 
-        final PostCard postCard = posts.get(i);
-        final Post post = postCard.post;
-        final User user = postCard.user;
+        final Post post = posts.get(i);
+        final User user = post.user;
 
         String countryCode = mCountries.get(post.countryName);
 
@@ -80,7 +75,7 @@ public class RecipeListViewAdapter extends BaseAdapter {
 
 
         Picasso.get().load("https://flagsapi.com/" + countryCode + "/flat/32.png").fit().into(countryFlagImageView);
-        Picasso.get().load(user.getUserImg()).resize(50, 50).centerCrop().into(userPicImageView);
+        Picasso.get().load(user.getAvatarUrl()).resize(50, 50).centerCrop().into(userPicImageView);
         Picasso.get().load("https://robohash.org/" + user.getUserName()).resize(50, 50).centerCrop().into(userPicImageView);
         Picasso.get().load(post.dishPic).into(recipeImageView);
 
