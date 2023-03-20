@@ -2,7 +2,6 @@ package com.example.homechef;
 
 import static com.example.homechef.utils.Utils.patternMatches;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,9 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.homechef.model.Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -41,7 +38,6 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         mAuth = FirebaseAuth.getInstance();
-
         emailInput = (EditText) findViewById(R.id.emailInput);
         passwordInput = (EditText) findViewById(R.id.passwordInput);
 
@@ -76,19 +72,9 @@ public class LogInActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        // TODO: Get user data from DB and save locally
-                        navToActivity(MainActivity.class);
-                    } else {
-                        Toast.makeText(LogInActivity.this, "שגיאת התחברות, אנא נסו שוב מאוחר יותר" + task.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+        Model.instance().login(email, password, (user) -> {
+            navToActivity(MainActivity.class);
+        });
     }
 
     private void navToActivity(Class activityClass) {

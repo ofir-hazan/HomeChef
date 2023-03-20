@@ -18,7 +18,7 @@ public class Model {
     private Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private FirebaseModel firebaseModel = new FirebaseModel();
-    AppLocalDbRepository localDb = AppLocalDb.getAppDb();
+//    AppLocalDbRepository localDb = AppLocalDb.getAppDb();
 
     public static Model instance(){
         return _instance;
@@ -41,7 +41,7 @@ public class Model {
     private LiveData<List<Post>> PostList;
     public LiveData<List<Post>> getAllPosts() {
         if(PostList == null){
-            PostList = localDb.PostDao().getAll();
+//            PostList = localDb.PostDao().getAll();
             refreshAllPosts();
         }
         return PostList;
@@ -58,7 +58,7 @@ public class Model {
                 Long time = localLastUpdate;
                 for(Post post:list){
                     // insert new records into ROOM
-                    localDb.PostDao().insertAll(post);
+//                    localDb.PostDao().insertAll(post);
                     if (time < post.getLocalLastUpdate()){
                         time = post.getLocalLastUpdate();
                     }
@@ -82,7 +82,22 @@ public class Model {
         });
     }
 
-    public void uploadImage(String name, Bitmap bitmap,Listener<String> listener) {
-        firebaseModel.uploadImage(name,bitmap,listener);
+    public void uploadImage(String userName, Bitmap bitmap,Listener<String> listener) {
+        firebaseModel.uploadImage(userName, bitmap, listener);
+    }
+
+    public User getUserById(String email, Listener<Void> listener) {
+        firebaseModel.getUserById(email, (Void) -> {
+            listener.onComplete(null);
+        });
+        return null;
+    }
+
+    public void login(String email, String password, Listener<Void> listener) {
+        firebaseModel.login(email, password, listener);
+    }
+
+    public void signUp(User user, String password, Listener<User> listener) {
+        firebaseModel.signUp(user, password, listener);
     }
 }
