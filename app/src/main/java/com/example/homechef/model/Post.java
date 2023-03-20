@@ -13,13 +13,14 @@ import java.util.Map;
 import com.example.homechef.MyApplication;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
-@Entity
+@Entity(tableName = "posts")
 public class Post {
     @PrimaryKey
     @NonNull
     private String id;
-    public String title, userName, userImg, dishImg, countryName;
-    public int time;
+
+    public String title, dishPic, countryName, userId;
+    public Long time;
     public Long lastUpdated;
 
     public static final String COLLECTION = "posts";
@@ -28,12 +29,11 @@ public class Post {
 
     public Post(){}
 
-    public Post(String id, String title, String userName, String userImg, String dishImg, String countryName, int time){
+    public Post(String id, String title, String dishPic, String countryName, Long time){
         this.id = id;
+        this.userId = userId;
         this.title = title;
-        this.userName = userName;
-        this.userImg = userImg;
-        this.dishImg = dishImg;
+        this.dishPic = dishPic;
         this.countryName = countryName;
         this.time = time;
     }
@@ -46,39 +46,33 @@ public class Post {
         return id;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserImg() {
-        return userImg;
-    }
-
-    public String getDishImg() {
-        return dishImg;
+    public String getDishPic() {
+        return dishPic;
     }
 
     public String getCountryName() {
         return countryName;
     }
 
-    public int getTime() {
+    public Long getTime() {
         return time;
     }
 
     public static Post fromJson(Map<String,Object> json){
         String id = (String)json.get("id");
         String title = (String)json.get("title");
-        String userName = (String)json.get("userName");
-        String userImg = (String)json.get("userImg");
         String dishImg = (String)json.get("dishImg");
         String countryName = (String)json.get("countryName");
-        int time = (int)json.get("time");
-        Post post = new Post(id,title,userName,userImg,dishImg,countryName,time);
+        Long time = (Long) json.get("time");
+        Post post = new Post(id,title,dishImg,countryName,time);
         try{
             Timestamp newTime = (Timestamp) json.get(LAST_UPDATED);
             post.setLocalLastUpdated(newTime.getSeconds());
@@ -91,9 +85,7 @@ public class Post {
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
         json.put("id", getId());
-        json.put("userName", getUserName());
-        json.put("userImg", getUserImg());
-        json.put("dishImg", getDishImg());
+        json.put("dishImg", getDishPic());
         json.put("countryName", getCountryName());
         json.put("time", getTime());
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
@@ -107,5 +99,18 @@ public class Post {
 
     public static void setLocalLastUpdated(Long newTime){
         MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit().putLong(LOCAL_LAST_UPDATED,newTime).commit();
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", dishImg='" + dishPic + '\'' +
+                ", countryName='" + countryName + '\'' +
+                ", userId='" + userId + '\'' +
+                ", time=" + time +
+                ", lastUpdated=" + lastUpdated +
+                '}';
     }
 }

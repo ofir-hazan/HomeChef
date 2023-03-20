@@ -21,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseModel {
     FirebaseFirestore db;
@@ -37,7 +38,6 @@ public class FirebaseModel {
     }
 public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback){
     db.collection(Post.COLLECTION)
-            .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -46,8 +46,12 @@ public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback){
                     if (task.isSuccessful()){
                         QuerySnapshot jsonList = task.getResult();
                         for (DocumentSnapshot json: jsonList){
-                            Post st = Post.fromJson(json.getData());
-                            list.add(st);
+                            Map<String, Object> data = json.getData();
+
+                            if(data != null) {
+                                Post st = Post.fromJson(data);
+                                list.add(st);
+                            }
                         }
                     }
                     callback.onComplete(list);

@@ -14,7 +14,9 @@ import android.widget.ListView;
 
 import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;
+import com.example.homechef.model.PostCard;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,41 +50,33 @@ public class RecipeListFragment extends ListFragment {
         List<Post> fakeData = new LinkedList<>();
 
         fakeData.add(new Post("1","פנקייקים",
-                "אופיר",
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 1640));
+                "Israel", 1640L));
 
         fakeData.add( new Post("2","גלידה",
-                "אופיר חזן",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
                 "https://www.cnet.com/a/img/resize/989e8e3be4eb8baae522f982b7cc1f6a3f4c0f6d/hub/2022/12/14/8af299d7-0c8f-493f-9771-c5b4738cb690/gettyimages-1306753442.jpg?auto=webp&fit=crop&height=675&width=1200",
-                "Israel", 3600));
+                "Israel", 3600L));
 
         fakeData.add( new Post("3" ,"דג סלמון בתנור",
-                "אופיר 3",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
                 "https://usercontent1.hubstatic.com/8934992.jpg",
-                "Israel", 250));
+                "Israel", 250L));
 
         fakeData.add( new Post("4" ,"פנקייקים",
-                "משי",
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 300));
+                "Israel", 300L));
 
         fakeData.add( new Post("5" ,"פנקייקים",
-                "משי 2",
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 600));
+                "Israel", 600L));
 
         //Populate the list fragment
-        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
+        LiveData<List<PostCard>> dbData = Model.instance().getAllPosts();
 
-        if (dbData == null){
+        System.out.println(dbData);
+        System.out.println(dbData.getValue());
+        if (dbData.getValue() == null){
             setListAdapter(new RecipeListViewAdapter(context,
-                    fakeData));
+                    new ArrayList<>()));
         }else{
             setListAdapter(new RecipeListViewAdapter(context,
                     dbData.getValue()));

@@ -2,6 +2,7 @@ package com.example.homechef;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.homechef.model.Post;
+import com.example.homechef.model.User;
+import com.example.homechef.model.PostCard;
 import com.example.homechef.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.homechef.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -26,12 +29,11 @@ import java.util.Map;
  */
 public class RecipeListViewAdapter extends BaseAdapter {
 
-    private final List<Post> posts;
+    private final List<PostCard> posts;
     private final LayoutInflater inflater;
     private Map<String, String> mCountries = new HashMap<>();
 
-
-    public RecipeListViewAdapter(Context applicationContext, List<Post> posts) {
+    public RecipeListViewAdapter(Context applicationContext, List<PostCard> posts) {
         Locale englishLanguage = new Locale.Builder().setLanguage("en").build();
         this.posts = posts;
         this.inflater = (LayoutInflater.from(applicationContext));
@@ -39,7 +41,6 @@ public class RecipeListViewAdapter extends BaseAdapter {
         for (String iso : Locale.getISOCountries()) {
             Locale l = new Locale("", iso);
             mCountries.put(l.getDisplayCountry(englishLanguage), iso);
-            System.out.println(iso);
         }
     }
 
@@ -58,26 +59,30 @@ public class RecipeListViewAdapter extends BaseAdapter {
         return posts.size();
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.fragment_recipe_card, null);
 
-        final Post post = posts.get(i);
+        final PostCard postCard = posts.get(i);
+        final Post post = postCard.post;
+        final User user = postCard.user;
+
         String countryCode = mCountries.get(post.countryName);
 
-        TextView recipeUserText = view.findViewById(R.id.recipeUser);
-        TextView recipeTitle = view.findViewById(R.id.recipeTitle);
-        TextView recipeCountry = view.findViewById(R.id.recipeCountry);
-        TextView recipeTime = view.findViewById(R.id.recipeTime);
-        ImageView recipeImageView = view.findViewById(R.id.image);
+        TextView recipeUserText = view.findViewById(R.id.recipeCardUserName);
+        TextView recipeTitle = view.findViewById(R.id.recipeCardTitle);
+        TextView recipeCountry = view.findViewById(R.id.recipeCardCountryName);
+        TextView recipeTime = view.findViewById(R.id.recipeCardTime);
+        ImageView recipeImageView = view.findViewById(R.id.recipeCardDishImg);
         ImageView countryFlagImageView = view.findViewById(R.id.countryFlag);
-        ImageView userPicImageView = view.findViewById(R.id.userPic);
+        ImageView userPicImageView = view.findViewById(R.id.recipeCardUserPic);
 
 
         Picasso.get().load("https://flagsapi.com/" + countryCode + "/flat/32.png").fit().into(countryFlagImageView);
-        Picasso.get().load(post.userImg).resize(50, 50).centerCrop().into(userPicImageView);
-        Picasso.get().load("https://robohash.org/" + post.userName).resize(50, 50).centerCrop().into(userPicImageView);
-        Picasso.get().load(post.dishImg).into(recipeImageView);
+        Picasso.get().load(user.getUserImg()).resize(50, 50).centerCrop().into(userPicImageView);
+        Picasso.get().load("https://robohash.org/" + user.getUserName()).resize(50, 50).centerCrop().into(userPicImageView);
+        Picasso.get().load(post.dishPic).into(recipeImageView);
 
 
         Locale country = new Locale.Builder().setRegion(countryCode).build();
@@ -86,7 +91,7 @@ public class RecipeListViewAdapter extends BaseAdapter {
         recipeCountry.setText(country.getDisplayCountry(hebrewLanguage));
         recipeTitle.setText(post.title);
         recipeTime.setText(Utils.timeToString(post.time));
-        recipeUserText.setText(post.userName);
+        recipeUserText.setText(user.getUserName());
 
         return view;
     }

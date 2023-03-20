@@ -3,14 +3,10 @@ package com.example.homechef.utils;
 import android.icu.text.DateIntervalFormat;
 
 public class Utils {
-    public static String timeToString(int timeInSeconds){
-        // Convert int of duration in seconds to a string of format "X hours Y minutes Z seconds",
-        // If 1 hour, return "an hour", if 1 minute, return "a minute", if 1 second, return "a second"
-        // If 0 seconds, return "no time"
-
-        int hours = timeInSeconds / 3600;
-        int minutes = (timeInSeconds % 3600) / 60;
-        int seconds = timeInSeconds % 60;
+    public static String timeToString(long timeInSeconds){
+        long hours = timeInSeconds / 3600;
+        long minutes = (timeInSeconds % 3600) / 60;
+        long seconds = timeInSeconds % 60;
 
         String timeString = "";
 

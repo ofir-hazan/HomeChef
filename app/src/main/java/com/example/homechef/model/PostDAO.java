@@ -11,11 +11,11 @@ import java.util.List;
 
 @Dao
 public interface PostDAO {
-    @Query("select * from Post")
-    LiveData<List<Post>> getAll();
+    @Query("select * from posts")
+    LiveData<List<PostCard>> getAll();
 
-    @Query("select * from Post where id = :studentId")
-    Post getStudentById(String studentId);
+    @Query("select * from posts where id = :userId")
+    PostCard getPostById(String userId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Post... Posts);

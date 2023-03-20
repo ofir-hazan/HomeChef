@@ -8,6 +8,8 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.Timestamp;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -38,13 +40,14 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
 
-    private LiveData<List<Post>> PostList;
-    public LiveData<List<Post>> getAllPosts() {
-        if(PostList == null){
-            PostList = localDb.PostDao().getAll();
+    private LiveData<List<PostCard>> postList;
+    public LiveData<List<PostCard>> getAllPosts() {
+        if(postList == null){
+            postList = localDb.PostDao().getAll();
+            System.out.println(postList);
             refreshAllPosts();
         }
-        return PostList;
+        return postList;
     }
 
     public void refreshAllPosts(){
@@ -54,9 +57,10 @@ public class Model {
         // get all updated recorde from firebase since local last update
         firebaseModel.getAllPostsSince(localLastUpdate,list->{
             executor.execute(()->{
+                System.out.println(list);
                 Log.d("TAG", " firebase return : " + list.size());
-                Long time = localLastUpdate;
-                for(Post post:list){
+                long time = localLastUpdate;
+                for(Post post: list){
                     // insert new records into ROOM
                     localDb.PostDao().insertAll(post);
                     if (time < post.getLocalLastUpdate()){
