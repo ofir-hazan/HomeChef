@@ -86,11 +86,8 @@ public class Model {
         firebaseModel.uploadImage(userName, bitmap, listener);
     }
 
-    public User getUserById(String email, Listener<Void> listener) {
-        firebaseModel.getUserById(email, (Void) -> {
-            listener.onComplete(null);
-        });
-        return null;
+    public void getUserById(String email, Listener<User> listener) {
+        firebaseModel.getUserById(email, listener);
     }
 
     public void login(String email, String password, Listener<Void> listener) {
@@ -99,5 +96,13 @@ public class Model {
 
     public void signUp(User user, String password, Listener<User> listener) {
         firebaseModel.signUp(user, password, listener);
+    }
+
+    public String getConnectedUser() {
+        return firebaseModel.getConnectedUser();
+    }
+
+    public void editInfo(User user, Listener<User> listener) {
+        firebaseModel.addUser(user, listener);
     }
 }
