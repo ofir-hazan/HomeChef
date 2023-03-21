@@ -10,4 +10,12 @@ public class PostCard {
             entityColumn = "id"
     )
     public User user;
+
+    @Override
+    public String toString() {
+        return "PostCard{" +
+                "post=" + post +
+                ", user=" + user +
+                '}';
+    }
 }

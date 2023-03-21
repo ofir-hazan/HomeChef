@@ -1,5 +1,7 @@
 package com.example.homechef;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -11,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.homechef.model.Country;
+import com.example.homechef.model.CountryModel;
 import com.example.homechef.model.Post;
 import com.example.homechef.model.User;
 import com.example.homechef.model.PostCard;
@@ -31,7 +35,7 @@ public class RecipeListViewAdapter extends BaseAdapter {
 
     private final List<PostCard> posts;
     private final LayoutInflater inflater;
-    private Map<String, String> mCountries = new HashMap<>();
+    private final Map<String, String> mCountries = new HashMap<>();
 
     public RecipeListViewAdapter(Context applicationContext, List<PostCard> posts) {
         Locale englishLanguage = new Locale.Builder().setLanguage("en").build();
@@ -61,11 +65,17 @@ public class RecipeListViewAdapter extends BaseAdapter {
 
     @SuppressLint("ViewHolder")
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflater.inflate(R.layout.fragment_recipe_card, null);
+    public View getView(int i, View container, ViewGroup viewGroup) {
+        View view = inflater.inflate(R.layout.fragment_recipe_card, null);
 
         final PostCard postCard = posts.get(i);
         final Post post = postCard.post;
+
+
+        if (postCard.user == null) {
+            postCard.user = new User("1", "test@gmail.com", "https://www.w3schools.com/howto/img_avatar.png", "test test");
+        }
+
         final User user = postCard.user;
 
         String countryCode = mCountries.get(post.countryName);
@@ -79,20 +89,37 @@ public class RecipeListViewAdapter extends BaseAdapter {
         ImageView userPicImageView = view.findViewById(R.id.recipeCardUserPic);
 
 
-        Picasso.get().load("https://flagsapi.com/" + countryCode + "/flat/32.png").fit().into(countryFlagImageView);
-        Picasso.get().load(user.getUserImg()).resize(50, 50).centerCrop().into(userPicImageView);
-        Picasso.get().load("https://robohash.org/" + user.getUserName()).resize(50, 50).centerCrop().into(userPicImageView);
-        Picasso.get().load(post.dishPic).into(recipeImageView);
+        if (post != null) {
+            LiveData<Country> data = CountryModel.getInstance().getCountryByName(post.countryName);
+            data.observeForever(new Observer<Country>() {
+                @Override
+                public void onChanged(Country country) {
+                    if (country != null) {
+                        Picasso.get().load(country.getFlag().getImageUrlPng()).resize(48, 48).into(countryFlagImageView);
+                        recipeCountry.setText(country.getHebrewName());
+                    } else {
+                        Picasso.get().load("https://flagsapi.com/" + countryCode + "/flat/32.png").fit().into(countryFlagImageView);
+                        Locale countryLocale = new Locale.Builder().setRegion(countryCode).build();
+                        Locale hebrewLanguage = new Locale.Builder().setLanguage("he").build();
 
+                        recipeCountry.setText(countryLocale.getDisplayCountry(hebrewLanguage));
+                    }
+                    data.removeObserver(this);
+                }
+            });
 
-        Locale country = new Locale.Builder().setRegion(countryCode).build();
-        Locale hebrewLanguage = new Locale.Builder().setLanguage("he").build();
+            Picasso.get().load(post.dishPic).into(recipeImageView);
 
-        recipeCountry.setText(country.getDisplayCountry(hebrewLanguage));
-        recipeTitle.setText(post.title);
-        recipeTime.setText(Utils.timeToString(post.time));
-        recipeUserText.setText(user.getUserName());
+            recipeTitle.setText(post.title);
+            recipeTime.setText(Utils.timeToString(post.time));
 
+        }
+
+        if (user != null) {
+            Picasso.get().load(user.getUserImg()).resize(50, 50).centerCrop().into(userPicImageView);
+            Picasso.get().load("https://robohash.org/" + user.getUserName()).resize(50, 50).centerCrop().into(userPicImageView);
+            recipeUserText.setText(user.getUserName());
+        }
         return view;
     }
 }

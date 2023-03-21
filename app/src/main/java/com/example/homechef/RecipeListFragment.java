@@ -69,11 +69,14 @@ public class RecipeListFragment extends ListFragment {
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
                 "Israel", 600L));
 
-        //Populate the list fragment
+        // Populate the list fragment
         LiveData<List<PostCard>> dbData = Model.instance().getAllPosts();
 
-        System.out.println(dbData);
-        System.out.println(dbData.getValue());
+        dbData.observe(getViewLifecycleOwner(), postCards -> {
+            setListAdapter(new RecipeListViewAdapter(context,
+                    postCards));
+        });
+
         if (dbData.getValue() == null){
             setListAdapter(new RecipeListViewAdapter(context,
                     new ArrayList<>()));
