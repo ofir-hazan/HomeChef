@@ -2,6 +2,8 @@ package com.example.homechef.utils;
 
 import android.icu.text.DateIntervalFormat;
 
+import java.util.regex.Pattern;
+
 public class Utils {
     public static String timeToString(long timeInSeconds) {
         long hours = timeInSeconds / 3600;
@@ -47,5 +49,10 @@ public class Utils {
         }
 
         return timeString;
+    }
+    public static boolean patternMatches(String emailAddress) {
+        return Pattern.compile("^(.+)@(\\S+)$")
+                .matcher(emailAddress)
+                .matches();
     }
 }

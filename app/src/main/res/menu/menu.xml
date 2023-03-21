@@ -2,6 +2,11 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/MyRecipesFragment"
+        android:icon="@drawable/icon_book"
+        android:title="My Recipes"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/icon_logout"
         android:title="Logout"

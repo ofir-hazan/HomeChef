@@ -21,7 +21,7 @@ public class User {
         this.avatarUrl = "";
     }
 
-    public User(@NonNull String email, String userImg, String userName) {
+    public User(@NonNull String email, String userName, String userImg ) {
         this.email = email;
         this.avatarUrl = userImg;
         this.userName = userName;
@@ -44,7 +44,7 @@ public class User {
         String email = (String) json.get(EMAIL);
         String userName = (String) json.get(USERNAME);
         String avatarUrl = (String) json.get(AVATARURL);
-        User user = new User(email, avatarUrl, userName);
+        User user = new User(email, userName, avatarUrl);
         return user;
     }
 

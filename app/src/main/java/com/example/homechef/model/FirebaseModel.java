@@ -147,9 +147,8 @@ public class FirebaseModel {
                 .get()
                 .addOnCompleteListener(task -> {
                     User user = null;
-                    Map<String, Object> data = task.getResult().getData();
-                    if (task.isSuccessful() && data != null) {
-                        user = User.fromJson(data);
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        user = user.fromJson(task.getResult().getData());
                     }
                     listener.onComplete(user);
                 });
