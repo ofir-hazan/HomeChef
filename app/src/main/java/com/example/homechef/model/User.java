@@ -8,44 +8,35 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey
     @NonNull
-    private String id;
+    private String email;
 
-    private String email, userImg, userName;
+    private String avatarUrl, userName;
 
     public User() {
 
     }
 
-    public User(@NonNull String id, String email, String userImg, String userName) {
-        this.id = id;
+    public User(@NonNull String email, String userImg, String userName) {
         this.email = email;
-        this.userImg = userImg;
+        this.avatarUrl = userImg;
         this.userName = userName;
     }
 
     @NonNull
-    public String getId() {
-        return id;
-    }
-
-    public void setId(@NonNull String id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NonNull String email) {
         this.email = email;
     }
 
-    public String getUserImg() {
-        return userImg;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setUserImg(String userImg) {
-        this.userImg = userImg;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getUserName() {

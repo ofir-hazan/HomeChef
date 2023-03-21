@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -15,11 +16,15 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 @Entity(tableName = "posts")
 public class Post {
+//    @PrimaryKey
+//    @NonNull
+//    private String id;
+    @Embedded
+    public User user;
     @PrimaryKey
     @NonNull
-    private String id;
-
-    public String title, dishPic, countryName, userId;
+    public String title;
+    public String dishPic, countryName;
     public Long time;
     public Long lastUpdated;
 
@@ -29,27 +34,27 @@ public class Post {
 
     public Post(){}
 
-    public Post(String id, String title, String dishPic, String countryName, Long time){
-        this.id = id;
-        this.userId = userId;
+    public Post( @NonNull String title, String dishPic, String countryName, Long time, User user){
+//        this.id = id;
         this.title = title;
         this.dishPic = dishPic;
         this.countryName = countryName;
         this.time = time;
+        this.user = user;
     }
 
-    public void setId(@NonNull String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
+//    public void setId(@NonNull String id) {
+//        this.id = id;
+//    }
+//
+//    public String getId() {
+//        return id;
+//    }
 
     public String getUserId() {
-        return userId;
+        return user.getEmail();
     }
-
+    @NonNull
     public String getTitle() {
         return title;
     }
@@ -67,12 +72,12 @@ public class Post {
     }
 
     public static Post fromJson(Map<String,Object> json){
-        String id = (String)json.get("id");
+//        String id = (String)json.get("id");
         String title = (String)json.get("title");
         String dishImg = (String)json.get("dishImg");
         String countryName = (String)json.get("countryName");
         Long time = (Long) json.get("time");
-        Post post = new Post(id,title,dishImg,countryName,time);
+        Post post = new Post(title,dishImg,countryName,time, (User) json.get("user"));
         try{
             Timestamp newTime = (Timestamp) json.get(LAST_UPDATED);
             post.setLocalLastUpdated(newTime.getSeconds());
@@ -84,7 +89,7 @@ public class Post {
 
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
-        json.put("id", getId());
+//        json.put("id", getId());
         json.put("dishImg", getDishPic());
         json.put("countryName", getCountryName());
         json.put("time", getTime());
@@ -104,11 +109,11 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "id='" + id + '\'' +
+//                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", dishImg='" + dishPic + '\'' +
                 ", countryName='" + countryName + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId='" + user.getEmail() + '\'' +
                 ", time=" + time +
                 ", lastUpdated=" + lastUpdated +
                 '}';

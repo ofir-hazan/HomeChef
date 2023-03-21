@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -20,6 +21,8 @@ public class Model {
     private Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private FirebaseModel firebaseModel = new FirebaseModel();
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     AppLocalDbRepository localDb = AppLocalDb.getAppDb();
 
     public static Model instance(){
@@ -40,11 +43,10 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
 
-    private LiveData<List<PostCard>> postList;
-    public LiveData<List<PostCard>> getAllPosts() {
+    private LiveData<List<Post>> postList;
+    public LiveData<List<Post>> getAllPosts() {
         if(postList == null){
             postList = localDb.PostDao().getAll();
-            System.out.println(postList);
             refreshAllPosts();
         }
         return postList;
@@ -57,12 +59,16 @@ public class Model {
         // get all updated recorde from firebase since local last update
         firebaseModel.getAllPostsSince(localLastUpdate,list->{
             executor.execute(()->{
-                System.out.println(list);
                 Log.d("TAG", " firebase return : " + list.size());
                 long time = localLastUpdate;
                 for(Post post: list){
                     // insert new records into ROOM
                     localDb.PostDao().insertAll(post);
+
+                    if(post.getUserId() != null) {
+                        // TODO: fetch user and insert into ROOM
+                    }
+
                     if (time < post.getLocalLastUpdate()){
                         time = post.getLocalLastUpdate();
                     }
