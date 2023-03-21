@@ -2,6 +2,7 @@ package com.example.homechef;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.ListFragment;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;
+import com.example.homechef.model.User;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,47 +48,49 @@ public class RecipeListFragment extends ListFragment {
         }
 
         List<Post> fakeData = new LinkedList<>();
+        User fakeUser = new User("d@gmail.com", "d","https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg");
 
         fakeData.add(new Post("1","פנקייקים",
-                "אופיר",
+                fakeUser,
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 1640));
-
-        fakeData.add( new Post("2","גלידה",
-                "אופיר חזן",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
+                "Israel", 1640L));
+        fakeData.add( new Post("2","גלידה",fakeUser,
                 "https://www.cnet.com/a/img/resize/989e8e3be4eb8baae522f982b7cc1f6a3f4c0f6d/hub/2022/12/14/8af299d7-0c8f-493f-9771-c5b4738cb690/gettyimages-1306753442.jpg?auto=webp&fit=crop&height=675&width=1200",
-                "Israel", 3600));
+                "Israel", 3600L));
 
         fakeData.add( new Post("3" ,"דג סלמון בתנור",
-                "אופיר 3",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
+                fakeUser,
                 "https://usercontent1.hubstatic.com/8934992.jpg",
-                "Israel", 250));
+                "Israel", 250L));
 
-        fakeData.add( new Post("4" ,"פנקייקים",
-                "משי",
+        fakeData.add( new Post("4" ,"פנקייקים",fakeUser,
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 300));
+                "Israel", 300L));
 
-        fakeData.add( new Post("5" ,"פנקייקים",
-                "משי 2",
+        fakeData.add( new Post("5" ,"פנקייקים",fakeUser,
                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                "Israel", 600));
+                "Israel", 600L));
+
+
 
         //Populate the list fragment
-//        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
+        LiveData<List<Post>> dbData = Model.instance().getAllPosts();
 
-//        if (dbData == null){
-            setListAdapter(new RecipeListViewAdapter(context,
-                    fakeData));
-//        }else{
-//            setListAdapter(new RecipeListViewAdapter(context,
-//                    dbData.getValue()));
-//        }
+        dbData.observe(getViewLifecycleOwner(), posts -> {
+            if (posts == null){
+                setListAdapter(new RecipeListViewAdapter(context,
+                        fakeData));
+            }else{
+                System.out.println(dbData.getValue());
+                setListAdapter(new RecipeListViewAdapter(context,
+                        dbData.getValue()));
+            }
+        });
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+//    private void navToActivity() {
+//        Intent navToActivityIntent = new Intent(this, MainActivity.class);
+//        startActivity(navToActivityIntent);
+//    }
 }

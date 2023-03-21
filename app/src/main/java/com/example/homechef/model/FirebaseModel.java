@@ -41,33 +41,44 @@ public class FirebaseModel {
     }
 
     public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback){
-        db.collection(Post.COLLECTION)
-                .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<Post> list = new LinkedList<>();
-                        if (task.isSuccessful()){
-                            QuerySnapshot jsonList = task.getResult();
-                            for (DocumentSnapshot json: jsonList){
-                                Post st = Post.fromJson(json.getData());
-                                list.add(st);
-                            }
-                        }
-                        callback.onComplete(list);
-                    }
-                });
+        db.collection(Post.COLLECTION).whereGreaterThanOrEqualTo(Post.LAST_UPDATED,new Timestamp(since,0)).get().addOnCompleteListener(task -> {
+            List<Post> list = new LinkedList<>();
+            Post post = null;
+            if (task.isSuccessful() && task.getResult() != null) {
+                QuerySnapshot jsonList = task.getResult();
+                for (DocumentSnapshot json: jsonList){
+                    Post p = Post.fromJson(json.getData());
+                    list.add(p);
+                }
+            }
+            callback.onComplete(list);
+        });
+//        db.collection(Post.COLLECTION)
+//                .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        List<Post> list = new LinkedList<>();
+//                        if (task.isSuccessful()){
+//                            QuerySnapshot jsonList = task.getResult();
+//                            for (DocumentSnapshot json: jsonList){
+//                                Post st = Post.fromJson(json.getData());
+//                                list.add(st);
+//                            }
+//                        }
+//                        callback.onComplete(list);
+//                    }
+//                });
     }
 
-    public void addPost(Post post, Model.Listener<Void> listener) {
-        db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete(null);
-                    }
-                });
+    public void addPost(Post post, Model.Listener<Post> listener) {
+        Map<String, Object> postJson = post.toJson();
+        db.collection(Post.COLLECTION)
+                .document(post.getId())
+                .set(postJson)
+                .addOnSuccessListener(unused -> listener.onComplete(post))
+                .addOnFailureListener(e -> listener.onComplete(post));
     }
 
     void uploadImage(String userName, Bitmap bitmap, Model.Listener<String> listener){

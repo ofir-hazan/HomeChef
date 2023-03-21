@@ -39,7 +39,6 @@ public class RecipeListViewAdapter extends BaseAdapter {
         for (String iso : Locale.getISOCountries()) {
             Locale l = new Locale("", iso);
             mCountries.put(l.getDisplayCountry(englishLanguage), iso);
-            System.out.println(iso);
         }
     }
 
@@ -74,9 +73,13 @@ public class RecipeListViewAdapter extends BaseAdapter {
         ImageView userPicImageView = view.findViewById(R.id.userPic);
 
 
+        System.out.println(post.user);
         Picasso.get().load("https://flagsapi.com/" + countryCode + "/flat/32.png").fit().into(countryFlagImageView);
-        Picasso.get().load(post.userImg).resize(50, 50).centerCrop().into(userPicImageView);
-        Picasso.get().load("https://robohash.org/" + post.userName).resize(50, 50).centerCrop().into(userPicImageView);
+        if (!post.user.getAvatarUrl().isEmpty()) {
+            Picasso.get().load(post.user.getAvatarUrl()).resize(50, 50).centerCrop().into(userPicImageView);
+        } else {
+            Picasso.get().load("https://robohash.org/" + post.user.getUserName()).resize(50, 50).centerCrop().into(userPicImageView);
+        }
         Picasso.get().load(post.dishImg).into(recipeImageView);
 
 
@@ -86,7 +89,7 @@ public class RecipeListViewAdapter extends BaseAdapter {
         recipeCountry.setText(country.getDisplayCountry(hebrewLanguage));
         recipeTitle.setText(post.title);
         recipeTime.setText(Utils.timeToString(post.time));
-        recipeUserText.setText(post.userName);
+        recipeUserText.setText(post.user.getUserName());
 
         return view;
     }

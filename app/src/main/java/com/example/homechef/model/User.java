@@ -7,15 +7,18 @@ import androidx.room.PrimaryKey;
 import java.util.HashMap;
 import java.util.Map;
 
-@Entity
+@Entity(tableName = "users")
 public class User {
     @PrimaryKey
     @NonNull
-    public String email="";
-    public String userName="";
-    public String avatarUrl="";
+    public String email;
+    public String userName;
+    public String avatarUrl;
 
     public User(){
+        this.email = "";
+        this.userName = "";
+        this.avatarUrl = "";
     }
 
     public User(String email, String userName, String avatarUrl) {
@@ -45,6 +48,10 @@ public class User {
         return user;
     }
 
+    public static User fromObject(Object object) {
+        return (User) object;
+    }
+
     public void setEmail(@NonNull String email) {
         this.email = email;
     }
@@ -68,5 +75,14 @@ public class User {
 
     public String getAvatarUrl() {
         return avatarUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", userName='" + userName + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
     }
 }
