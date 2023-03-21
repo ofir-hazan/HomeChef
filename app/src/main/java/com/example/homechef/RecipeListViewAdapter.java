@@ -105,9 +105,12 @@ public class RecipeListViewAdapter extends BaseAdapter {
         }
 
         if (user != null) {
-            Picasso.get().load(user.getUserImg()).resize(50, 50).centerCrop().into(userPicImageView);
-            Picasso.get().load("https://robohash.org/" + user.getUserName()).resize(50, 50).centerCrop()
-                    .into(userPicImageView);
+            if (!post.user.getAvatarUrl().isEmpty()) {
+                Picasso.get().load(post.user.getAvatarUrl()).resize(50, 50).centerCrop().into(userPicImageView);
+            } else {
+                Picasso.get().load("https://robohash.org/" + post.user.getUserName()).resize(50, 50).centerCrop()
+                        .into(userPicImageView);
+            }
             recipeUserText.setText(user.getUserName());
         }
         return view;

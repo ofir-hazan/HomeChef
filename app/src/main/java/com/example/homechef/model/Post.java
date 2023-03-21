@@ -14,83 +14,104 @@ import java.util.Map;
 import com.example.homechef.MyApplication;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
+
 @Entity(tableName = "posts")
 public class Post {
-//    @PrimaryKey
-//    @NonNull
-//    private String id;
+    // @PrimaryKey
+    // @NonNull
+    // private String id;
     @Embedded
     public User user;
     @PrimaryKey
     @NonNull
-    public String title;
-    public String dishPic, countryName;
-    public Long time;
+    private String id;
+    public String title, dishImg, countryName;
+    public long time;
+    @Embedded
+    public User user;
     public Long lastUpdated;
 
     public static final String COLLECTION = "posts";
     public static final String LAST_UPDATED = "lastUpdated";
     public static final String LOCAL_LAST_UPDATED = "posts_local_last_update";
 
-    public Post(){}
+    public Post() {
+    }
 
-    public Post( @NonNull String title, String dishPic, String countryName, Long time, User user){
-//        this.id = id;
+    public Post(String id, String title, User user, String dishImg, String countryName, long time) {
+        this.id = id;
         this.title = title;
-        this.dishPic = dishPic;
+        this.user = user;
+        this.dishImg = dishImg;
         this.countryName = countryName;
         this.time = time;
         this.user = user;
     }
 
-//    public void setId(@NonNull String id) {
-//        this.id = id;
-//    }
-//
-//    public String getId() {
-//        return id;
-//    }
+    // public void setId(@NonNull String id) {
+    // this.id = id;
+    // }
+    //
+    // public String getId() {
+    // return id;
+    // }
 
     public String getUserId() {
         return user.getEmail();
     }
+
     @NonNull
     public String getTitle() {
         return title;
     }
 
-    public String getDishPic() {
-        return dishPic;
+    public User getUser() {
+        return user;
+    }
+
+    public String getDishImg() {
+        return dishImg;
     }
 
     public String getCountryName() {
         return countryName;
     }
 
-    public Long getTime() {
+    public long getTime() {
         return time;
     }
 
-    public static Post fromJson(Map<String,Object> json){
-//        String id = (String)json.get("id");
-        String title = (String)json.get("title");
-        String dishImg = (String)json.get("dishImg");
-        String countryName = (String)json.get("countryName");
+    @SuppressWarnings("unchecked")
+    public static Post fromJson(Map<String, Object> json) {
+        String id = (String) json.get("id");
+        String title = (String) json.get("title");
+        String dishImg = (String) json.get("dishImg");
+        String countryName = (String) json.get("countryName");
         Long time = (Long) json.get("time");
-        Post post = new Post(title,dishImg,countryName,time, (User) json.get("user"));
-        try{
+        Object userJson = json.get("user");
+        User user = new User();
+
+        if (userJson instanceof HashMap) {
+            user = User.fromJson((HashMap<String, Object>) userJson);
+        }
+
+        Post post = new Post(id, title, user, dishImg, countryName, time != null ? time : 0L);
+        try {
             Timestamp newTime = (Timestamp) json.get(LAST_UPDATED);
-            post.setLocalLastUpdated(newTime.getSeconds());
-        }catch(Exception e){
+            if (newTime != null) {
+                Post.setLocalLastUpdated(newTime.getSeconds());
+            }
+        } catch (Exception e) {
 
         }
         return post;
     }
 
-    public Map<String,Object> toJson(){
+    public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<>();
-//        json.put("id", getId());
-        json.put("dishImg", getDishPic());
+        json.put("id", getId());
+        json.put("user", getUser().toJson());
+        json.put("dishImg", getDishImg());
         json.put("countryName", getCountryName());
         json.put("time", getTime());
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
@@ -102,19 +123,20 @@ public class Post {
         return sharedPref.getLong(LOCAL_LAST_UPDATED, 0);
     }
 
-    public static void setLocalLastUpdated(Long newTime){
-        MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit().putLong(LOCAL_LAST_UPDATED,newTime).commit();
+    public static void setLocalLastUpdated(Long newTime) {
+        MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit()
+                .putLong(LOCAL_LAST_UPDATED, newTime).commit();
     }
 
     @Override
     public String toString() {
         return "Post{" +
-//                "id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", dishImg='" + dishPic + '\'' +
+                ", dishImg='" + dishImg + '\'' +
                 ", countryName='" + countryName + '\'' +
-                ", userId='" + user.getEmail() + '\'' +
                 ", time=" + time +
+                ", user=" + user +
                 ", lastUpdated=" + lastUpdated +
                 '}';
     }

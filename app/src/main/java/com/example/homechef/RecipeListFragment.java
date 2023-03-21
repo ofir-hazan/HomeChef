@@ -2,6 +2,7 @@ package com.example.homechef;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.ListFragment;
@@ -49,46 +50,47 @@ public class RecipeListFragment extends ListFragment {
                 }
 
                 List<Post> fakeData = new LinkedList<>();
+                User fakeUser = new User("d@gmail.com", "d",
+                                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg");
 
-                User fakeUser = new User("ofir@gmail.com",
-                                "androidx.appcompat.widget.AppCompatImageView{9f9fc57 V.ED..... ........ 306,198-774,666 #7f0901fc app:id/uploadProfilePicture}",
-                                "ofir");
-
-                fakeData.add(new Post("פנקייקים",
+                fakeData.add(new Post("1", "פנקייקים",
+                                fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 1640L, fakeUser));
-
-                fakeData.add(new Post("גלידה",
+                                "Israel", 1640L));
+                fakeData.add(new Post("2", "גלידה", fakeUser,
                                 "https://www.cnet.com/a/img/resize/989e8e3be4eb8baae522f982b7cc1f6a3f4c0f6d/hub/2022/12/14/8af299d7-0c8f-493f-9771-c5b4738cb690/gettyimages-1306753442.jpg?auto=webp&fit=crop&height=675&width=1200",
-                                "Israel", 3600L, fakeUser));
+                                "Israel", 3600L));
 
-                fakeData.add(new Post("דג סלמון בתנור",
+                fakeData.add(new Post("3", "דג סלמון בתנור",
+                                fakeUser,
                                 "https://usercontent1.hubstatic.com/8934992.jpg",
-                                "Israel", 250L, fakeUser));
+                                "Israel", 250L));
 
-                fakeData.add(new Post("פנקייקים",
+                fakeData.add(new Post("4", "פנקייקים", fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 300L, fakeUser));
+                                "Israel", 300L));
 
-                fakeData.add(new Post("פנקייקים",
+                fakeData.add(new Post("5", "פנקייקים", fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 600L, fakeUser));
+                                "Israel", 600L));
 
                 // Populate the list fragment
-                LiveData<List<PostCard>> dbData = Model.instance().getAllPosts();
+                LiveData<List<Post>> dbData = Model.instance().getAllPosts();
 
-                dbData.observe(getViewLifecycleOwner(), postCards -> {
-                        setListAdapter(new RecipeListViewAdapter(context,
-                                        postCards));
+                dbData.observe(getViewLifecycleOwner(), posts -> {
+                        if (posts == null) {
+                                setListAdapter(new RecipeListViewAdapter(context,
+                                                fakeData));
+                        } else {
+                                setListAdapter(new RecipeListViewAdapter(context,
+                                                dbData.getValue()));
+                        }
                 });
-
-                if (dbData.getValue() == null) {
-                        setListAdapter(new RecipeListViewAdapter(context,
-                                        fakeData));
-                } else {
-                        setListAdapter(new RecipeListViewAdapter(context,
-                                        dbData.getValue()));
-                }
                 return super.onCreateView(inflater, container, savedInstanceState);
         }
+
+        // private void navToActivity() {
+        // Intent navToActivityIntent = new Intent(this, MainActivity.class);
+        // startActivity(navToActivityIntent);
+        // }
 }

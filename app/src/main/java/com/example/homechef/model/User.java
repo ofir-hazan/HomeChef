@@ -8,12 +8,14 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey
     @NonNull
-    private String email;
-
-    private String avatarUrl, userName;
+    public String email;
+    public String userName;
+    public String avatarUrl;
 
     public User() {
-
+        this.email = "";
+        this.userName = "";
+        this.avatarUrl = "";
     }
 
     public User(@NonNull String email, String userImg, String userName) {
@@ -22,7 +24,27 @@ public class User {
         this.userName = userName;
     }
 
-    @NonNull
+    static final String USERNAME = "userName";
+    static final String EMAIL = "email";
+    static final String AVATARURL = "avatarUrl";
+    static final String COLLECTION = "users";
+
+    public Map<String, Object> toJson() {
+        Map<String, Object> json = new HashMap<>();
+        json.put(EMAIL, getEmail());
+        json.put(USERNAME, getUserName());
+        json.put(AVATARURL, getAvatarUrl());
+        return json;
+    }
+
+    public static User fromJson(Map<String, Object> json) {
+        String email = (String) json.get(EMAIL);
+        String userName = (String) json.get(USERNAME);
+        String avatarUrl = (String) json.get(AVATARURL);
+        User user = new User(email, userName, avatarUrl);
+        return user;
+    }
+
     public String getEmail() {
         return email;
     }
