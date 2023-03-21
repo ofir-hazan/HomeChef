@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RecipeListFragment extends ListFragment {
+        PostsListFragmentViewModel viewModel;
 
         public RecipeListFragment() {
         }
@@ -42,8 +43,15 @@ public class RecipeListFragment extends ListFragment {
                         Bundle savedInstanceState) {
                 final Activity activity = getActivity();
                 final Context context = getContext();
+//                User currUser = new User();
 
-                ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        //      ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
+//                String currEmail = Model.instance().getConnectedUser();
+//                Model.instance().getUserById(currEmail, (user) -> {
+//                        currUser = new User(user.getEmail(), user.getUserName(), user.getAvatarUrl());
+//                });
+//                PostCard postCard = new PostCard(viewModel.getData().getValue().get(0), currUser);
+//                PostRecyclerAdapter adapter = new PostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
 
                 if (context == null || activity == null) {
                         return super.onCreateView(inflater, container, savedInstanceState);
