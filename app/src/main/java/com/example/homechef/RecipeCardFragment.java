@@ -25,10 +25,6 @@ public class RecipeCardFragment extends Fragment {
         // Required empty public constructor
     }
 
-//    public static RecipeCardFragment newInstance(String recipeName, String estimatedTime, User user, String country, String img) {
-//
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

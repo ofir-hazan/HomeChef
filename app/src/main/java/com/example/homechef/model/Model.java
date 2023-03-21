@@ -1,4 +1,5 @@
 package com.example.homechef.model;
+
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
@@ -7,6 +8,9 @@ import android.util.Log;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -18,48 +22,52 @@ public class Model {
     private Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private FirebaseModel firebaseModel = new FirebaseModel();
-//    AppLocalDbRepository localDb = AppLocalDb.getAppDb();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    public static Model instance(){
+    AppLocalDbRepository localDb = AppLocalDb.getAppDb();
+
+    public enum LoadingState {
+        LOADING,
+        NOT_LOADING
+    }
+
+    final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(
+            LoadingState.NOT_LOADING);
+    private LiveData<List<Post>> postList;
+
+    public static Model instance() {
         return _instance;
     }
-    private Model(){
+
+    private Model() {
     }
 
-    public interface Listener<T>{
+    public interface Listener<T> {
         void onComplete(T data);
     }
 
 
-    public enum LoadingState{
-        LOADING,
-        NOT_LOADING
-    }
-    final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
-
-
-    private LiveData<List<Post>> PostList;
     public LiveData<List<Post>> getAllPosts() {
-        if(PostList == null){
-//            PostList = localDb.PostDao().getAll();
+        if (postList == null) {
+            postList = localDb.PostDao().getAll();
             refreshAllPosts();
         }
-        return PostList;
+        return postList;
     }
 
-    public void refreshAllPosts(){
+    public void refreshAllPosts() {
         EventPostsListLoadingState.setValue(LoadingState.LOADING);
         // get local last update
         Long localLastUpdate = Post.getLocalLastUpdate();
         // get all updated recorde from firebase since local last update
-        firebaseModel.getAllPostsSince(localLastUpdate,list->{
-            executor.execute(()->{
+        firebaseModel.getAllPostsSince(localLastUpdate, list -> {
+            executor.execute(() -> {
                 Log.d("TAG", " firebase return : " + list.size());
-                Long time = localLastUpdate;
-                for(Post post:list){
+                long time = localLastUpdate;
+                for (Post post : list) {
                     // insert new records into ROOM
-//                    localDb.PostDao().insertAll(post);
-                    if (time < post.getLocalLastUpdate()){
+                    localDb.PostDao().insertAll(post);
+                    if (time < post.getLocalLastUpdate()) {
                         time = post.getLocalLastUpdate();
                     }
                 }
@@ -75,14 +83,14 @@ public class Model {
         });
     }
 
-    public void addPost(Post post, Listener<Void> listener){
-        firebaseModel.addPost(post,(Void)->{
+    public void addPost(Post post, Listener<Void> listener) {
+        firebaseModel.addPost(post, (Void) -> {
             refreshAllPosts();
             listener.onComplete(null);
         });
     }
 
-    public void uploadImage(String userName, Bitmap bitmap,Listener<String> listener) {
+    public void uploadImage(String userName, Bitmap bitmap, Listener<String> listener) {
         firebaseModel.uploadImage(userName, bitmap, listener);
     }
 
