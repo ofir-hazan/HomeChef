@@ -43,8 +43,8 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(LoadingState.NOT_LOADING);
 
 
-    private LiveData<List<PostCard>> postList;
-    public LiveData<List<PostCard>> getAllPosts() {
+    private LiveData<List<Post>> postList;
+    public LiveData<List<Post>> getAllPosts() {
         if(postList == null){
             postList = localDb.PostDao().getAll();
             refreshAllPosts();
