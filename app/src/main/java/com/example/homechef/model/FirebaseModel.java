@@ -2,6 +2,7 @@ package com.example.homechef.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class FirebaseModel {
     FirebaseStorage storage;
     FirebaseAuth mAuth;
 
-    FirebaseModel(){
+    FirebaseModel() {
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(false)
@@ -40,39 +43,54 @@ public class FirebaseModel {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback){
-        db.collection(Post.COLLECTION)
-                .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<Post> list = new LinkedList<>();
-                        if (task.isSuccessful()){
-                            QuerySnapshot jsonList = task.getResult();
-                            for (DocumentSnapshot json: jsonList){
-                                Post st = Post.fromJson(json.getData());
-                                list.add(st);
+    public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback) {
+        db.collection(Post.COLLECTION).whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since, 0)).get()
+                .addOnCompleteListener(task -> {
+                    List<Post> list = new LinkedList<>();
+                    Post post = null;
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        QuerySnapshot jsonList = task.getResult();
+                        for (DocumentSnapshot json : jsonList) {
+                            Map<String, Object> data = json.getData();
+
+                            if(data != null) {
+                                list.add(Post.fromJson(data));
                             }
                         }
-                        callback.onComplete(list);
                     }
+                    callback.onComplete(list);
                 });
+        // db.collection(Post.COLLECTION)
+        // .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
+        // .get()
+        // .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // @Override
+        // public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        // List<Post> list = new LinkedList<>();
+        // if (task.isSuccessful()){
+        // QuerySnapshot jsonList = task.getResult();
+        // for (DocumentSnapshot json: jsonList){
+        // Post st = Post.fromJson(json.getData());
+        // list.add(st);
+        // }
+        // }
+        // callback.onComplete(list);
+        // }
+        // });
     }
 
-    public void addPost(Post post, Model.Listener<Void> listener) {
-        db.collection(Post.COLLECTION).document(post.getId()).set(post.toJson())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onComplete(null);
-                    }
-                });
+    public void addPost(Post post, Model.Listener<Post> listener) {
+        Map<String, Object> postJson = post.toJson();
+        db.collection(Post.COLLECTION)
+                .document(post.getId())
+                .set(postJson)
+                .addOnSuccessListener(unused -> listener.onComplete(post))
+                .addOnFailureListener(e -> listener.onComplete(post));
     }
 
-    void uploadImage(String userName, Bitmap bitmap, Model.Listener<String> listener){
+    void uploadImage(String name, Bitmap bitmap, Model.Listener<String> listener) {
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("images/" + userName + ".jpg");
+        StorageReference imagesRef = storageRef.child("images/" + name + ".jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -138,6 +156,7 @@ public class FirebaseModel {
 
     public String getConnectedUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        return firebaseUser.getEmail();
+        
+        return firebaseUser != null ? firebaseUser.getEmail() : null;
     }
 }

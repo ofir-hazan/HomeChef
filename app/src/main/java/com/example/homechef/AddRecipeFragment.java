@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aceinteract.android.stepper.StepperNavListener;
+import com.aceinteract.android.stepper.StepperNavigationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,84 +33,55 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class AddRecipeFragment extends Fragment {
+public class AddRecipeFragment extends Fragment implements StepperNavListener {
 
-    private ArrayList<String> countryNames =new ArrayList<String>();
-    private TextView tv;
-    private View inf;
-    private Spinner dropdownSpinner;
+    private StepperNavigationView stepper;
+    private Button prevButton, nextButton;
+
+    public static final int STEPS = 3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
 
-        // Inflate the layout for this fragment
-        inf = inflater.inflate(R.layout.fragment_add_recipe, container, false);
+        stepper = view.findViewById(R.id.stepper);
+        prevButton = view.findViewById(R.id.add_recipe_prev_button);
+        nextButton = view.findViewById(R.id.add_recipe_next_button);
 
-        dropdownSpinner = (Spinner) inf.findViewById(R.id.countryDropdown);
-
-        useApi(container);
-
-        Button cancelButton = (Button) inf.findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(v -> {
-            //TODO Do something in response to button click
+        prevButton.setOnClickListener(v -> {
+            if(stepper.getCurrentStep() > 0) {
+                stepper.goToPreviousStep();
+            } else {
+                // Todo: Cancel
+            }
         });
 
-//        Button saveButton = (Button) container.findViewById(R.id.saveButton);
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // TODO Do something in response to button click
-//            }
-//        });
-//        Button uploadPicButton = (Button) container.findViewById(R.id.uploadPicButton);
-//        uploadPicButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // TODO Do something in response to button click
-//            }
-//        });
+        nextButton.setOnClickListener(v -> {
+            stepper.goToNextStep();
+        });
 
-        return inf;
+        stepper.setStepperNavListener(this);
+        return view;
     }
 
-    private void useApi(ViewGroup container){
-        String countriesURL = "https://laravel-world.com/api/countries";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(countriesURL, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) { try {
-                JSONArray array = response.getJSONArray("data");
-                for (int i = 0; i< array.length(); i++) {
-                    JSONObject jsonObject = array.getJSONObject(i);
-                    countryNames.add(jsonObject.getString("name"));
-                }
-
-                setSpinner();
-
-            } catch (JSONException e) {
-                countryNames = new ArrayList<String>( Arrays.asList("Israel", "Turkey", "Italy", "USA", "UK"));
-            }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(container.getContext());
-        requestQueue.add(jsonObjectRequest);
+    @Override
+    public void onCompleted() {
+        Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
     }
 
-    private void setSpinner(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, countryNames);
-        dropdownSpinner.setAdapter(adapter);
-        dropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getActivity(), "you selected:"+adapterView.getItemAtPosition(position),Toast.LENGTH_SHORT).show();  // test
-                //TODO add action
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+    @Override
+    public void onStepChanged(int step) {
+        if (step == 0) {
+            prevButton.setText(getString(R.string.cancel));
+        } else {
+            prevButton.setText(getString(R.string.previous));
+        }
 
-            }
-        });
+        if (step == STEPS - 1) {
+            nextButton.setText(getString(R.string.finish));
+        } else {
+            nextButton.setText(getString(R.string.next));
+        }
     }
 }

@@ -6,4 +6,11 @@
     <string name="time">זמן</string>
     <string name="username">שם משתמש</string>
     <string name="recipeTitle">כותרת מתכון</string>
+    <string name="details">פרטים</string>
+    <string name="content">תוכן</string>
+    <string name="finish">סיום</string>
+    <string name="cancel">ביטול</string>
+    <string name="next">הבא</string>
+    <string name="previous">חזור</string>
+    <string name="country_hint">מדינת המקור</string>
 </resources>
