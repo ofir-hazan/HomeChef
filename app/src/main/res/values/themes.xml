@@ -14,6 +14,8 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
         <item name="android:backgroundSplit">@color/almost_white_red</item>
+
+        <item name="android:background">@color/white</item>
     </style>
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/rubik</item>

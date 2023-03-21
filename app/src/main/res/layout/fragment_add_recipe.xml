@@ -1,82 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AddRecipeFragment">
 
-<!--    <Button-->
-<!--        android:id="@+id/uploadPicButton"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:text="העלה תמונה"-->
-<!--        app:cornerRadius="1dp"-->
-<!--        tools:translationX="116dp"-->
-<!--        tools:translationY="60dp"/>-->
 
-<!--    <EditText-->
-<!--        android:id="@+id/recipeTitle"-->
-<!--        android:layout_width="293dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="כותרת מתכון"-->
-<!--        android:inputType="text"-->
-<!--        android:minHeight="48dp"-->
-<!--        tools:translationX="74dp"-->
-<!--        tools:translationY="100dp" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/estimatedTime"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:hint="זמן הכנה משוער"-->
-<!--        android:inputType="time"-->
-<!--        android:minHeight="48dp"-->
-<!--        tools:translationX="157dp"-->
-<!--        tools:translationY="145dp" />-->
-
-    <Spinner
-        android:id="@+id/countryDropdown"
-        android:layout_width="208dp"
-        android:layout_height="38dp"
-        android:autofillHints="מאיזה מדינה המתכון שלך?"
-        tools:translationX="159dp"
-        tools:translationY="195dp" />
-
-<!--    <EditText-->
-<!--        android:id="@+id/editTextTextMultiLine"-->
-<!--        android:layout_width="323dp"-->
-<!--        android:layout_height="319dp"-->
-<!--        android:ems="10"-->
-<!--        android:gravity="start|top"-->
-<!--        android:hint="הוראות המתכון שלי..."-->
-<!--        android:inputType="textMultiLine"-->
-<!--        tools:translationX="44dp"-->
-<!--        tools:translationY="235dp" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/saveButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="שמור"-->
-<!--        tools:translationX="240dp"-->
-<!--        tools:translationY="620dp" />-->
-
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/white"
-        android:text="ביטול"
-        android:textColor="@color/orange"
-        tools:translationX="85dp"
-        tools:translationY="620dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <!--        style="@style/Stepper.CardView"-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_recipe_card_stepper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add recipe page test!!!!!!!!"
-        android:textSize="20sp" />
-</FrameLayout>
+        android:layout_margin="32dp">
+
+        <com.aceinteract.android.stepper.StepperNavigationView
+            android:id="@+id/stepper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="20dp"
+            app:stepperIconSize="20dp"
+            app:stepperItems="@menu/menu_add_recipe_stepper"
+            app:stepperTextColor="@android:color/black"
+            app:stepperTextSize="12sp"
+            app:stepperType="tab"
+            app:stepperWidgetColor="@color/orange" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/frame_stepper"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navGraph="@navigation/nav_add_recipe_stepper" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/add_recipe_prev_button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/previous"
+            android:textColor="@color/orange" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/add_recipe_next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/orange"
+            android:text="@string/next"
+            android:textColor="@color/white" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+</LinearLayout>

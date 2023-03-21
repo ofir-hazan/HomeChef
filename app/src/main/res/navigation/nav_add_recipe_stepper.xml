@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_add_recipe_stepper"
+    app:startDestination="@+id/step_1_add_recipe_dest">
+
+    <fragment
+        android:id="@+id/step_1_add_recipe_dest"
+        android:name="com.example.homechef.AddRecipeDetails"
+        android:label="@string/details" />
+
+    <fragment
+        android:id="@+id/step_2_add_recipe_dest"
+        android:name="com.example.homechef.AddRecipeContent"
+        android:label="@string/content" />
+
+    <fragment
+        android:id="@+id/step_3_add_recipe_dest"
+        android:name="com.example.homechef.AddRecipeFinish"
+        android:label="@string/finish" />
+</navigation>
