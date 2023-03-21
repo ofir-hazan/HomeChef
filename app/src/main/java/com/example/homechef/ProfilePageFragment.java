@@ -30,6 +30,7 @@ public class ProfilePageFragment extends Fragment {
         EditText userNameInput = (EditText) view.findViewById(R.id.userNameInput);
 
         String email = Model.instance().getConnectedUser();
+        System.out.println(email);
         Model.instance().getUserById(email, (user) -> {
             userNameInput.setText(user.getUserName());
         });

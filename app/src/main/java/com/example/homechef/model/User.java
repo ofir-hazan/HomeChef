@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity(tableName = "users")
 public class User {
     @PrimaryKey
@@ -41,7 +44,7 @@ public class User {
         String email = (String) json.get(EMAIL);
         String userName = (String) json.get(USERNAME);
         String avatarUrl = (String) json.get(AVATARURL);
-        User user = new User(email, userName, avatarUrl);
+        User user = new User(email, avatarUrl, userName);
         return user;
     }
 

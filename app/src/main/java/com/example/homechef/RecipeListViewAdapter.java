@@ -64,7 +64,7 @@ public class RecipeListViewAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.fragment_recipe_card, null);
 
         final Post post = posts.get(i);
-        final User user = post.user;
+        final User user = post.getUser();
 
         String countryCode = mCountries.get(post.countryName);
 
@@ -77,7 +77,8 @@ public class RecipeListViewAdapter extends BaseAdapter {
         ImageView userPicImageView = view.findViewById(R.id.recipeCardUserPic);
 
         if (post != null) {
-            LiveData<Country> data = CountryModel.getInstance().getCountryByName(post.countryName);
+            System.out.println(post.getCountryName());
+            LiveData<Country> data = CountryModel.getInstance().getCountryByName(post.getCountryName());
             data.observeForever(new Observer<Country>() {
                 @Override
                 public void onChanged(Country country) {
@@ -97,15 +98,16 @@ public class RecipeListViewAdapter extends BaseAdapter {
                 }
             });
 
-            Picasso.get().load(post.dishPic).into(recipeImageView);
+            Picasso.get().load(post.getDishImg()).into(recipeImageView);
 
-            recipeTitle.setText(post.title);
-            recipeTime.setText(Utils.timeToString(post.time));
-
+            recipeTitle.setText(post.getTitle());
+            recipeTime.setText(Utils.timeToString(post.getTime()));
         }
 
+        System.out.println(user);
         if (user != null) {
-            if (!post.user.getAvatarUrl().isEmpty()) {
+            System.out.println(user.getAvatarUrl());
+            if (!user.getAvatarUrl().isEmpty()) {
                 Picasso.get().load(post.user.getAvatarUrl()).resize(50, 50).centerCrop().into(userPicImageView);
             } else {
                 Picasso.get().load("https://robohash.org/" + post.user.getUserName()).resize(50, 50).centerCrop()

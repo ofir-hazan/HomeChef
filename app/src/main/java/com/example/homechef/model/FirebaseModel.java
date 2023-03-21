@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class FirebaseModel {
     FirebaseFirestore db;
     FirebaseStorage storage;
+    FirebaseAuth mAuth;
 
     FirebaseModel() {
         db = FirebaseFirestore.getInstance();
@@ -38,7 +40,7 @@ public class FirebaseModel {
                 .build();
         db.setFirestoreSettings(settings);
         storage = FirebaseStorage.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback) {
@@ -49,8 +51,11 @@ public class FirebaseModel {
                     if (task.isSuccessful() && task.getResult() != null) {
                         QuerySnapshot jsonList = task.getResult();
                         for (DocumentSnapshot json : jsonList) {
-                            Post p = Post.fromJson(json.getData());
-                            list.add(p);
+                            Map<String, Object> data = json.getData();
+
+                            if(data != null) {
+                                list.add(Post.fromJson(data));
+                            }
                         }
                     }
                     callback.onComplete(list);
@@ -142,8 +147,9 @@ public class FirebaseModel {
                 .get()
                 .addOnCompleteListener(task -> {
                     User user = null;
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        user = user.fromJson(task.getResult().getData());
+                    Map<String, Object> data = task.getResult().getData();
+                    if (task.isSuccessful() && data != null) {
+                        user = User.fromJson(data);
                     }
                     listener.onComplete(user);
                 });
@@ -151,6 +157,7 @@ public class FirebaseModel {
 
     public String getConnectedUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        return firebaseUser.getEmail();
+        
+        return firebaseUser != null ? firebaseUser.getEmail() : null;
     }
 }

@@ -47,8 +47,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         final User user = postCard.user;
         userNameTV.setText(user.getUserName());
 
-        if (post.getDishPic() != null && post.getDishPic().length() > 5) {
-            Picasso.get().load(post.getDishPic()).placeholder(R.drawable.icon_person).into(dishImg);
+        if (post.getDishImg() != null && post.getDishImg().length() > 5) {
+            Picasso.get().load(post.getDishImg()).placeholder(R.drawable.icon_person).into(dishImg);
         } else {
             dishImg.setImageResource(R.drawable.icon_person);
         }

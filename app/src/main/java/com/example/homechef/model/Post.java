@@ -17,16 +17,12 @@ import com.google.firebase.firestore.FieldValue;
 
 @Entity(tableName = "posts")
 public class Post {
-    // @PrimaryKey
-    // @NonNull
-    // private String id;
-    @Embedded
-    public User user;
     @PrimaryKey
     @NonNull
     private String id;
     public String title, dishImg, countryName;
     public long time;
+
     @Embedded
     public User user;
     public Long lastUpdated;
@@ -48,13 +44,13 @@ public class Post {
         this.user = user;
     }
 
-    // public void setId(@NonNull String id) {
-    // this.id = id;
-    // }
-    //
-    // public String getId() {
-    // return id;
-    // }
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getUserId() {
         return user.getEmail();
@@ -125,7 +121,7 @@ public class Post {
 
     public static void setLocalLastUpdated(Long newTime) {
         MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit()
-                .putLong(LOCAL_LAST_UPDATED, newTime).commit();
+                .putLong(LOCAL_LAST_UPDATED, newTime).apply();
     }
 
     @Override

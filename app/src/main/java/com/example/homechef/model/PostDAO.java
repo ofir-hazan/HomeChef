@@ -12,7 +12,6 @@ import java.util.List;
 @Dao
 public interface PostDAO {
     @Query("select * from posts")
-    @Query("select * from posts")
     LiveData<List<Post>> getAll();
 
     // @Query("select * from posts where title=title")
