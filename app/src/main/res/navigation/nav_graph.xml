@@ -9,6 +9,9 @@
         android:id="@+id/RecipeListFragment"
         android:name="com.example.homechef.RecipeListFragment"
         tools:layout="@layout/fragment_recipe_list">
+        <action
+            android:id="@+id/action_RecipeListFragment_to_DisplayEditRecipeFragment"
+            app:destination="@+id/DisplayEditRecipeFragment" />
     </fragment>
 
     <fragment
@@ -27,5 +30,14 @@
         android:id="@+id/MyRecipesFragment"
         android:name="com.example.homechef.MyRecipesFragment"
         tools:layout="@layout/fragment_my_recipes">
+    </fragment>
+
+    <fragment
+        android:id="@+id/DisplayEditRecipeFragment"
+        android:name="com.example.homechef.MyRecipesFragment"
+        tools:layout="@layout/fragment_my_recipes">
+        <argument
+            android:name="postId"
+            app:argType="string" />
     </fragment>
 </navigation>
