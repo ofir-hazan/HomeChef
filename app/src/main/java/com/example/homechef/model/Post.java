@@ -20,7 +20,7 @@ public class Post {
     @PrimaryKey
     @NonNull
     private String id;
-    public String title, dishImg, countryName;
+    public String title, dishImg, countryName, fullRecipe;
     public long time;
 
     @Embedded
@@ -34,14 +34,14 @@ public class Post {
     public Post() {
     }
 
-    public Post(String id, String title, User user, String dishImg, String countryName, long time) {
+    public Post(String id, String title, User user, String dishImg, String countryName, long time, String fullRecipe) {
         this.id = id;
         this.title = title;
         this.user = user;
         this.dishImg = dishImg;
         this.countryName = countryName;
         this.time = time;
-        this.user = user;
+        this.fullRecipe = fullRecipe;
     }
 
     public void setId(@NonNull String id) {
@@ -77,6 +77,10 @@ public class Post {
         return time;
     }
 
+    public String getFullRecipe() {
+        return fullRecipe;
+    }
+
     @SuppressWarnings("unchecked")
     public static Post fromJson(Map<String, Object> json) {
         String id = (String) json.get("id");
@@ -84,14 +88,15 @@ public class Post {
         String dishImg = (String) json.get("dishImg");
         String countryName = (String) json.get("countryName");
         Long time = (Long) json.get("time");
+        String fullRecipe = (String) json.get("fullRecipe");
+
         Object userJson = json.get("user");
         User user = new User();
-
         if (userJson instanceof HashMap) {
             user = User.fromJson((HashMap<String, Object>) userJson);
         }
 
-        Post post = new Post(id, title, user, dishImg, countryName, time != null ? time : 0L);
+        Post post = new Post(id, title, user, dishImg, countryName, time != null ? time : 0L, fullRecipe);
         try {
             Timestamp newTime = (Timestamp) json.get(LAST_UPDATED);
             if (newTime != null) {
@@ -106,11 +111,13 @@ public class Post {
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<>();
         json.put("id", getId());
+        json.put("title", getTitle());
         json.put("user", getUser().toJson());
         json.put("dishImg", getDishImg());
         json.put("countryName", getCountryName());
         json.put("time", getTime());
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
+        json.put("fullRecipe", getFullRecipe());
         return json;
     }
 

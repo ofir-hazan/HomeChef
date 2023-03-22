@@ -34,6 +34,7 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(
             LoadingState.NOT_LOADING);
     private LiveData<List<Post>> postList;
+    private LiveData<List<Post>> myPostList;
 
     public static Model instance() {
         return _instance;
@@ -55,10 +56,18 @@ public class Model {
         return postList;
     }
 
+    public LiveData<List<Post>> getUserPosts() {
+        String email = getConnectedUser();
+        if (myPostList == null) {
+            myPostList = localDb.PostDao().getPostsByEmail(email);
+        }
+        return myPostList;
+    }
+
     public void refreshAllPosts() {
         EventPostsListLoadingState.setValue(LoadingState.LOADING);
         // get local last update
-        Long localLastUpdate = Post.getLocalLastUpdate();
+        Long localLastUpdate = postList.getValue() == null ? 0L : Post.getLocalLastUpdate();
         // get all updated recorde from firebase since local last update
         firebaseModel.getAllPostsSince(localLastUpdate, list -> {
             executor.execute(() -> {
@@ -90,8 +99,8 @@ public class Model {
         });
     }
 
-    public void uploadImage(String userName, Bitmap bitmap, Listener<String> listener) {
-        firebaseModel.uploadImage(userName, bitmap, listener);
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
+        firebaseModel.uploadImage(name, bitmap, listener);
     }
 
     public void getUserById(String email, Listener<User> listener) {

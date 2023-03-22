@@ -16,8 +16,8 @@
 
     <fragment
         android:id="@+id/AddRecipeFragment"
-        android:name="com.example.homechef.AddRecipeFragment"
-        tools:layout="@layout/fragment_add_recipe">
+        android:name="com.example.homechef.AddNewRecipeFragment"
+        tools:layout="@layout/fragment_add_new_recipe">
     </fragment>
 
     <fragment

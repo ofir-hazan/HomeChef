@@ -12,7 +12,11 @@
     <fragment
         android:id="@+id/step_2_add_recipe_dest"
         android:name="com.example.homechef.AddRecipeContent"
-        android:label="@string/content" />
+        android:label="@string/content" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/step_3_add_recipe_dest"

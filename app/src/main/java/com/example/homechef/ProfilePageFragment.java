@@ -1,6 +1,7 @@
 package com.example.homechef;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 
 import com.example.homechef.model.Model;
 import com.example.homechef.model.User;
+import com.squareup.picasso.Picasso;
 
 public class ProfilePageFragment extends Fragment {
 
@@ -38,9 +40,15 @@ public class ProfilePageFragment extends Fragment {
         Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
         EditText userNameInput = (EditText) view.findViewById(R.id.userNameInput);
 
+        // Init the profile data
         String email = Model.instance().getConnectedUser();
         Model.instance().getUserById(email, (user) -> {
             userNameInput.setText(user.getUserName());
+            if (user.getAvatarUrl() != null && !user.getAvatarUrl().equals("")) {
+                Picasso.get()
+                        .load(user.getAvatarUrl())
+                        .into(imageView);
+            }
         });
 
         imageButton.setOnClickListener(new View.OnClickListener()
@@ -117,8 +125,6 @@ public class ProfilePageFragment extends Fragment {
         cancelButton.setVisibility(View.INVISIBLE);
         EditText userNameInput = (EditText) v.findViewById(R.id.userNameInput);
         userNameInput.setEnabled(false);
-        ImageView imageView = (ImageView) v.findViewById(R.id.profilePicture);
-        imageView.setClickable(false);
         ImageButton galleryButton = (ImageButton) v.findViewById(R.id.galleryButton);
         galleryButton.setVisibility(View.INVISIBLE);
         ImageButton cameraButton = (ImageButton) v.findViewById(R.id.cameraButton);
@@ -128,9 +134,23 @@ public class ProfilePageFragment extends Fragment {
     public void saveChanges(View v) {
         EditText userNameInput = (EditText) v.findViewById(R.id.userNameInput);
         String userName = userNameInput.getText().toString().trim();
+
+        ImageView profilePicture = (ImageView) v.findViewById(R.id.profilePicture);
+        profilePicture.setDrawingCacheEnabled(true);
+        profilePicture.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) profilePicture.getDrawable()).getBitmap();
+
         String email = Model.instance().getConnectedUser();
+        User newUser = new User(email, userName, "");
         Model.instance().getUserById(email, (user) -> {
-            User newUser = new User(user.getEmail(), userName, user.getAvatarUrl());
+            newUser.setAvatarUrl(user.getAvatarUrl());
+        });
+
+        Model.instance().uploadImage(email, bitmap, url-> {
+            if (url != null){
+                newUser.setAvatarUrl(url);
+            }
+
             Model.instance().editInfo(newUser, (task) -> {
                 resetFragment(v);
             });
