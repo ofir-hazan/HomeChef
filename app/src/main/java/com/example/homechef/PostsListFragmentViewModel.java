@@ -10,9 +10,13 @@ import java.util.List;
 
 public class PostsListFragmentViewModel extends ViewModel {
 
-    private final LiveData<List<Post>> data = Model.instance().getAllPosts();
+    private final LiveData<List<Post>> allPostData = Model.instance().getAllPosts();
+    private final LiveData<List<Post>> userPostsData = Model.instance().getUserPosts();
 
     LiveData<List<Post>> getData(){
-        return data;
+        return allPostData;
+    }
+    LiveData<List<Post>> getUserPostsData(){
+        return userPostsData;
     }
 }
