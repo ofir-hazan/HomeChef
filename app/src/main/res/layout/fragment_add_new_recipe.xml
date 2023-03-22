@@ -11,12 +11,28 @@
         android:layout_width="0dp"
         android:layout_height="0.25dp"
         android:layout_weight="0.25" />
-    <Button
-        android:id="@+id/uploadPicButton"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="25dp"
-        android:text="העלה תמונה"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/galleryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_gallery"
+            tools:ignore="MissingConstraints,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        <ImageView
+        android:id="@+id/newPostImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_camera"
+            tools:ignore="MissingConstraints,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </LinearLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -39,7 +55,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="30dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="15dp"
         android:hint="זמן הכנה משוער">
@@ -52,15 +68,6 @@
             android:inputType="time"
             android:minHeight="48dp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    <Button-->
-    <!--        android:id="@+id/saveButton"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="שמור"-->
-    <!--        tools:translationX="240dp"-->
-    <!--        tools:translationY="620dp" />-->
-
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -82,7 +89,7 @@
     <EditText
         android:id="@+id/fullRecipe"
         android:layout_width="323dp"
-        android:layout_height="319dp"
+        android:layout_height="200dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="הוראות המתכון שלי..."
