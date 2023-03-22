@@ -1,28 +1,26 @@
 package com.example.homechef;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.ListFragment;
-import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.example.homechef.model.Model;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.homechef.databinding.FragmentRecipeListBinding;
 import com.example.homechef.model.Post;
-import com.example.homechef.model.PostCard;
-import com.example.homechef.model.User;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class RecipeListFragment extends ListFragment {
+public class RecipeListFragment extends Fragment {
+        FragmentRecipeListBinding binding;
+        PostRecyclerAdapter adapter;
         PostsListFragmentViewModel viewModel;
 
         public RecipeListFragment() {
@@ -41,59 +39,35 @@ public class RecipeListFragment extends ListFragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                         Bundle savedInstanceState) {
-                final Activity activity = getActivity();
-                final Context context = getContext();
-//                User currUser = new User();
 
-        //      ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
-//                String currEmail = Model.instance().getConnectedUser();
-//                Model.instance().getUserById(currEmail, (user) -> {
-//                        currUser = new User(user.getEmail(), user.getUserName(), user.getAvatarUrl());
-//                });
-//                PostCard postCard = new PostCard(viewModel.getData().getValue().get(0), currUser);
-//                PostRecyclerAdapter adapter = new PostRecyclerAdapter(getLayoutInflater(), viewModel.getData().getValue());
+                binding = FragmentRecipeListBinding.inflate(inflater, container, false);
+                View view = binding.getRoot();
+                binding.recyclerView.setHasFixedSize(true);
+                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                adapter = new PostRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
+                binding.recyclerView.setAdapter(adapter);
 
-                if (context == null || activity == null) {
-                        return super.onCreateView(inflater, container, savedInstanceState);
-                }
+                adapter.setOnItemClickListener(new PostRecyclerAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int pos) {
+                                Log.d("TAG", "Row was clicked " + pos);
 
-                List<Post> fakeData = new LinkedList<>();
-                User fakeUser = new User("d@gmail.com", "d",
-                                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg");
+                                Post post = viewModel.getData().getValue().get(pos);
 
-                fakeData.add(new Post("1", "פנקייקים",
-                                fakeUser,
-                                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 1640L,""));
-                fakeData.add(new Post("2", "גלידה", fakeUser,
-                                "https://www.cnet.com/a/img/resize/989e8e3be4eb8baae522f982b7cc1f6a3f4c0f6d/hub/2022/12/14/8af299d7-0c8f-493f-9771-c5b4738cb690/gettyimages-1306753442.jpg?auto=webp&fit=crop&height=675&width=1200",
-                                "Israel", 3600L,""));
-
-                fakeData.add(new Post("3", "דג סלמון בתנור",
-                                fakeUser,
-                                "https://usercontent1.hubstatic.com/8934992.jpg",
-                                "Israel", 250L,""));
-
-                fakeData.add(new Post("4", "פנקייקים", fakeUser,
-                                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 300L,""));
-
-                fakeData.add(new Post("5", "פנקייקים", fakeUser,
-                                "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 600L,""));
-
-                // Populate the list fragment
-                LiveData<List<Post>> dbData = Model.instance().getAllPosts();
-
-                dbData.observe(getViewLifecycleOwner(), posts -> {
-                        if (posts == null) {
-                                setListAdapter(new RecipeListViewAdapter(context,
-                                                fakeData));
-                        } else {
-                                setListAdapter(new RecipeListViewAdapter(context,
-                                                dbData.getValue()));
+                                RecipeListFragmentDirections.ActionRecipeListFragmentToDisplayEditRecipeFragment action = RecipeListFragmentDirections.actionRecipeListFragmentToDisplayEditRecipeFragment(post.getId());
+                                Navigation.findNavController(view).navigate(action);
                         }
                 });
-                return super.onCreateView(inflater, container, savedInstanceState);
+
+                viewModel.getData().observe(getViewLifecycleOwner(),list->{
+                        adapter.setData(list);
+                });
+                return view;
+        }
+
+        @Override
+        public void onAttach(@NonNull Context context) {
+                super.onAttach(context);
+                viewModel = new ViewModelProvider(this).get(PostsListFragmentViewModel.class);
         }
 }
