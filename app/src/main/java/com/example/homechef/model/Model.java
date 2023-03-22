@@ -9,7 +9,6 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -121,5 +120,13 @@ public class Model {
 
     public void editInfo(User user, Listener<User> listener) {
         firebaseModel.addUser(user, listener);
+    }
+
+    public void getPostById(String id, Listener<Post> listener) {
+        firebaseModel.getPostById(id, listener);
+    }
+
+    public void logout() {
+        firebaseModel.logout();
     }
 }

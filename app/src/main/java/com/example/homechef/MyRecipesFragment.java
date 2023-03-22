@@ -1,13 +1,10 @@
 package com.example.homechef;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,11 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.homechef.databinding.FragmentMyRecipesBinding;
-import com.example.homechef.databinding.FragmentRecipeListBinding;
-import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;
-
-import java.util.List;
 
 public class MyRecipesFragment extends Fragment {
     FragmentMyRecipesBinding binding;
@@ -59,7 +52,7 @@ public class MyRecipesFragment extends Fragment {
 
                 Post post = viewModel.getUserPostsData().getValue().get(pos);
 
-                RecipeListFragmentDirections.ActionRecipeListFragmentToDisplayEditRecipeFragment action = RecipeListFragmentDirections.actionRecipeListFragmentToDisplayEditRecipeFragment(post.getId());
+                MyRecipesFragmentDirections.ActionMyRecipesFragmentToDisplayEditRecipeFragment action = MyRecipesFragmentDirections.actionMyRecipesFragmentToDisplayEditRecipeFragment(post.getId());
                 Navigation.findNavController(view).navigate(action);
             }
         });

@@ -57,6 +57,7 @@ public class RecipeListFragment extends Fragment {
 
                                 RecipeListFragmentDirections.ActionRecipeListFragmentToDisplayEditRecipeFragment action = RecipeListFragmentDirections.actionRecipeListFragmentToDisplayEditRecipeFragment(post.getId());
                                 Navigation.findNavController(view).navigate(action);
+
                         }
                 });
 

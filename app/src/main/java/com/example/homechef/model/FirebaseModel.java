@@ -154,9 +154,26 @@ public class FirebaseModel {
                 });
     }
 
+    public void getPostById(String id, Model.Listener<Post> listener) {
+        db.collection(Post.COLLECTION)
+                .document(id)
+                .get()
+                .addOnCompleteListener(task -> {
+                    Post post = null;
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        post = post.fromJson(task.getResult().getData());
+                    }
+                    listener.onComplete(post);
+                });
+    }
+
     public String getConnectedUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         
         return firebaseUser != null ? firebaseUser.getEmail() : null;
+    }
+
+    public void logout() {
+        mAuth.signOut();
     }
 }

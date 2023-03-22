@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.homechef.model.Model;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 navController.popBackStack();
                 break;
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
+                Model.instance().logout();
                 Intent navToActivityIntent = new Intent(this, LogInActivity.class);
                 startActivity(navToActivityIntent);
                 break;

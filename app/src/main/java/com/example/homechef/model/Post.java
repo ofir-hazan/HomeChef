@@ -81,6 +81,10 @@ public class Post {
         return fullRecipe;
     }
 
+    public void setFullRecipe(String fullRecipe) {
+        this.fullRecipe = fullRecipe;
+    }
+
     @SuppressWarnings("unchecked")
     public static Post fromJson(Map<String, Object> json) {
         String id = (String) json.get("id");
