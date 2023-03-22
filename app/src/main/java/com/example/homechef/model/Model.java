@@ -58,7 +58,7 @@ public class Model {
     public void refreshAllPosts() {
         EventPostsListLoadingState.setValue(LoadingState.LOADING);
         // get local last update
-        Long localLastUpdate = Post.getLocalLastUpdate();
+        Long localLastUpdate = postList.getValue() == null ? 0L : Post.getLocalLastUpdate();
         // get all updated recorde from firebase since local last update
         firebaseModel.getAllPostsSince(localLastUpdate, list -> {
             executor.execute(() -> {

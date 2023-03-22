@@ -56,23 +56,23 @@ public class RecipeListFragment extends ListFragment {
                 fakeData.add(new Post("1", "פנקייקים",
                                 fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 1640L));
+                                "Israel", 1640L,""));
                 fakeData.add(new Post("2", "גלידה", fakeUser,
                                 "https://www.cnet.com/a/img/resize/989e8e3be4eb8baae522f982b7cc1f6a3f4c0f6d/hub/2022/12/14/8af299d7-0c8f-493f-9771-c5b4738cb690/gettyimages-1306753442.jpg?auto=webp&fit=crop&height=675&width=1200",
-                                "Israel", 3600L));
+                                "Israel", 3600L,""));
 
                 fakeData.add(new Post("3", "דג סלמון בתנור",
                                 fakeUser,
                                 "https://usercontent1.hubstatic.com/8934992.jpg",
-                                "Israel", 250L));
+                                "Israel", 250L,""));
 
                 fakeData.add(new Post("4", "פנקייקים", fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 300L));
+                                "Israel", 300L,""));
 
                 fakeData.add(new Post("5", "פנקייקים", fakeUser,
                                 "https://www.delscookingtwist.com/wp-content/uploads/2022/01/Easy-Fluffy-American-Pancakes_1.jpg",
-                                "Israel", 600L));
+                                "Israel", 600L,""));
 
                 // Populate the list fragment
                 LiveData<List<Post>> dbData = Model.instance().getAllPosts();
