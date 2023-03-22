@@ -14,6 +14,9 @@ public interface PostDAO {
     @Query("select * from posts")
     LiveData<List<Post>> getAll();
 
+    @Query("select * from posts where email = :email")
+    LiveData<List<Post>> getPostsByEmail(String email);
+
     // @Query("select * from posts where title=title")
     // Post getPostById(String title);
 

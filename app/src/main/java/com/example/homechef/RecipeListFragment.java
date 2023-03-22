@@ -88,9 +88,4 @@ public class RecipeListFragment extends ListFragment {
                 });
                 return super.onCreateView(inflater, container, savedInstanceState);
         }
-
-        // private void navToActivity() {
-        // Intent navToActivityIntent = new Intent(this, MainActivity.class);
-        // startActivity(navToActivityIntent);
-        // }
 }

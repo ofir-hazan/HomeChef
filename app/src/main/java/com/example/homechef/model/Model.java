@@ -34,6 +34,7 @@ public class Model {
     final public MutableLiveData<LoadingState> EventPostsListLoadingState = new MutableLiveData<LoadingState>(
             LoadingState.NOT_LOADING);
     private LiveData<List<Post>> postList;
+    private LiveData<List<Post>> myPostList;
 
     public static Model instance() {
         return _instance;
@@ -53,6 +54,14 @@ public class Model {
             refreshAllPosts();
         }
         return postList;
+    }
+
+    public LiveData<List<Post>> getUserPosts() {
+        String email = getConnectedUser();
+        if (myPostList == null) {
+            myPostList = localDb.PostDao().getPostsByEmail(email);
+        }
+        return myPostList;
     }
 
     public void refreshAllPosts() {
