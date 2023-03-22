@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:orientation="vertical"
+    android:maxHeight="200px"
     tools:context=".RecipeCardFragment">
 
     <!-- TODO: Update blank fragment layout -->
