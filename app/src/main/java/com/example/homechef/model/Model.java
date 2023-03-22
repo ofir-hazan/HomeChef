@@ -58,7 +58,7 @@ public class Model {
 
     public LiveData<List<Post>> getUserPosts() {
         String email = getConnectedUser();
-        if (myPostList == null) {
+        if (myPostList == null || myPostList.getValue() == null) {
             myPostList = localDb.PostDao().getPostsByEmail(email);
         }
         return myPostList;
