@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/DisplayEditRecipeFragment"
         android:name="com.example.homechef.DisplayEditRecipeFragment"
-        tools:layout="@layout/fragment_my_recipes">
+        tools:layout="@layout/fragment_display_edit_recipe">
         <argument
             android:name="postId"
             app:argType="string" />

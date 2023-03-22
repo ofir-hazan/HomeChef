@@ -65,10 +65,28 @@ public class RecipeListFragment extends ListFragment {
                                 Log.d("TAG", "Row was clicked " + pos);
 
                                 Post post = viewModel.getData().getValue().get(pos);
-//                                RecipeListFragmentDirections.ActionStudentsListFragmentToBlueFragment action = StudentsListFragmentDirections.actionStudentsListFragmentToBlueFragment(st.name);
-//                                Navigationn.findNavController(view).navigate(action);
+
+                                RecipeListFragmentDirections.ActionRecipeListFragmentToDisplayEditRecipeFragment action = RecipeListFragmentDirections.actionRecipeListFragmentToDisplayEditRecipeFragment(post.getId());
+                                Navigation.findNavController(view).navigate(action);
                         }
                 });
+
+
+//                binding.progressBar.setVisibility(View.GONE);
+
+                viewModel.getData().observe(getViewLifecycleOwner(),list->{
+                        adapter.setData(list);
+                });
+
+//                Model.instance().EventStudentsListLoadingState.observe(getViewLifecycleOwner(),status->{
+//                        binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+//                });
+
+//                binding.swipeRefresh.setOnRefreshListener(()->{
+//                        reloadData();
+//                });
+
+
 
 //                ListView view = (ListView) inflater.inflate(R.layout.fragment_recipe_list, container, false);
 //
