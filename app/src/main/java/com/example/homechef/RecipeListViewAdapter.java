@@ -98,7 +98,9 @@ public class RecipeListViewAdapter extends BaseAdapter {
                 }
             });
 
-            Picasso.get().load(post.getDishImg()).into(recipeImageView);
+            if(!post.getDishImg().isEmpty() && post.getDishImg() != null){
+                Picasso.get().load(post.getDishImg()).into(recipeImageView);
+            }
 
             recipeTitle.setText(post.getTitle());
             recipeTime.setText(Utils.timeToString(post.getTime()));

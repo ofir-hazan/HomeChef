@@ -7,36 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.aceinteract.android.stepper.StepperNavListener;
 import com.aceinteract.android.stepper.StepperNavigationView;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import com.example.homechef.model.Model;
+import com.example.homechef.model.Post;
 
 public class AddRecipeFragment extends Fragment implements StepperNavListener {
 
     private StepperNavigationView stepper;
     private Button prevButton, nextButton;
+    private static Post newPost;
 
     public static final int STEPS = 3;
 
@@ -48,6 +31,8 @@ public class AddRecipeFragment extends Fragment implements StepperNavListener {
         stepper = view.findViewById(R.id.stepper);
         prevButton = view.findViewById(R.id.add_recipe_prev_button);
         nextButton = view.findViewById(R.id.add_recipe_next_button);
+
+        newPost = new Post();
 
         prevButton.setOnClickListener(v -> {
             if(stepper.getCurrentStep() > 0) {
@@ -67,7 +52,9 @@ public class AddRecipeFragment extends Fragment implements StepperNavListener {
 
     @Override
     public void onCompleted() {
-        Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
+        Model.instance().addPost(newPost, (newPost)->{
+            stepper.goToNextStep();
+            });
     }
 
     @Override
