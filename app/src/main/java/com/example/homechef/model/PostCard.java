@@ -11,6 +11,11 @@ public class PostCard {
     )
     public User user;
 
+    public PostCard(Post post, User user) {
+        this.post = post;
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "PostCard{" +

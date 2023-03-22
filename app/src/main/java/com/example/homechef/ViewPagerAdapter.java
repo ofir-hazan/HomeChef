@@ -20,7 +20,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new ProfilePageFragment();
             case 1:
-                return new AddRecipeFragment();
+                return new AddNewRecipeFragment();
             case 3:
                 return new RecipeListFragment();
             default:return  new RecipeListFragment();

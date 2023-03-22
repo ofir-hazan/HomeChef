@@ -5,7 +5,7 @@
         android:title="כל המתכונים"
         android:icon="@drawable/icon_home"/>
 
-    <item android:id="@+id/AddRecipeFragment"
+    <item android:id="@+id/AddNewRecipeFragment"
         android:title="הוסף מתכון"
         android:icon="@drawable/icon_add_post"/>
 
