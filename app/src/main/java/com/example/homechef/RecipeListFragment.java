@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.homechef.databinding.FragmentRecipeListBinding;
+import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;
 
 public class RecipeListFragment extends Fragment {
@@ -62,6 +63,15 @@ public class RecipeListFragment extends Fragment {
                 viewModel.getData().observe(getViewLifecycleOwner(),list->{
                         adapter.setData(list);
                 });
+
+                Model.instance().EventPostsListLoadingState.observe(getViewLifecycleOwner(),status->{
+                        binding.swipeRefresh.setRefreshing(status == Model.LoadingState.LOADING);
+                });
+
+                binding.swipeRefresh.setOnRefreshListener(()->{
+                        reloadData();
+                });
+
                 return view;
         }
 
@@ -69,5 +79,9 @@ public class RecipeListFragment extends Fragment {
         public void onAttach(@NonNull Context context) {
                 super.onAttach(context);
                 viewModel = new ViewModelProvider(this).get(PostsListFragmentViewModel.class);
+        }
+
+        void reloadData(){
+                Model.instance().refreshAllPosts();
         }
 }
