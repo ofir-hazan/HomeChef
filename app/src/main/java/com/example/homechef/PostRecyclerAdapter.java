@@ -61,8 +61,6 @@ class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Post post, int position) {
-
-
         titleTV.setText(post.title);
         timeTV.setText(Utils.timeToString(post.getTime()));
 
