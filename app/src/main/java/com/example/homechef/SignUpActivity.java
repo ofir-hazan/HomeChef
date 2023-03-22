@@ -109,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
         uploadProfilePicture.setDrawingCacheEnabled(true);
         uploadProfilePicture.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) uploadProfilePicture.getDrawable()).getBitmap();
-        Model.instance().uploadImage(userName, bitmap, url-> {
+        Model.instance().uploadImage(email, bitmap, url-> {
             if (url != null){
                 newUser.setAvatarUrl(url);
             }

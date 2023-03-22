@@ -90,8 +90,8 @@ public class Model {
         });
     }
 
-    public void uploadImage(String userName, Bitmap bitmap, Listener<String> listener) {
-        firebaseModel.uploadImage(userName, bitmap, listener);
+    public void uploadImage(String email, Bitmap bitmap, Listener<String> listener) {
+        firebaseModel.uploadImage(email, bitmap, listener);
     }
 
     public void getUserById(String email, Listener<User> listener) {
