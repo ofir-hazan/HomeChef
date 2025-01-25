@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.homechef.adapters.PostRecyclerAdapter;
 import com.example.homechef.databinding.FragmentRecipeListBinding;
 import com.example.homechef.model.Model;
 import com.example.homechef.model.Post;

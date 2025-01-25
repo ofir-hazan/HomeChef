@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.homechef.adapters.PostRecyclerAdapter;
 import com.example.homechef.databinding.FragmentMyRecipesBinding;
 import com.example.homechef.model.Post;
 

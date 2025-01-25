@@ -1,6 +1,5 @@
-package com.example.homechef;
+package com.example.homechef.adapters;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.homechef.R;
 import com.example.homechef.model.Country;
 import com.example.homechef.model.CountryModel;
 import com.example.homechef.model.Post;
@@ -119,7 +120,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
     }
 
 
-    void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -132,6 +133,16 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+        Post recipe = data.get(position);
+        holder.titleTV.setText(recipe.getTitle());
+
+        // Clear the previous image before loading a new one
+        Glide.with(holder.itemView.getContext()).clear(holder.dishImg);
+
+        Glide.with(holder.itemView.getContext())
+                .load(recipe.getDishImg())
+                .into(holder.dishImg);
+
         holder.bind(data.get(position), position);
     }
 
